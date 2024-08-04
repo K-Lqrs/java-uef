@@ -1,0 +1,6 @@
+src/test/
+build/
+.idea/
+.gradle/
+cmake-build-debug/
+lib/temp
