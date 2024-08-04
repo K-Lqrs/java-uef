@@ -3,4 +3,6 @@ build/
 .idea/
 .gradle/
 cmake-build-debug/
-lib/temp
+
+lib/temp/
+lib/ultralight-sdk-1.3.0-win-x64/
