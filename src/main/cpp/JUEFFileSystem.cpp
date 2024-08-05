@@ -1,32 +1,31 @@
-#include "h/JUEFFileSystem.h"
-
+#include <jni.h>
 #include <limits>
 #include <Ultralight/platform/FileSystem.h>
 #include <Ultralight/platform/Platform.h>
 #include <Ultralight/String.h>
 
-JNIEXPORT jboolean JNICALL Java_net_rk4z_juef_JUEFFileSystem_JUEF_1fileExists(JNIEnv* env, jobject obj, jstring path) {
+JNIEXPORT jboolean JNICALL Java_net_rk4z_juef_JUEFFileSystem_fileExists(JNIEnv* env, jobject obj, jstring path) {
     const char* pathStr = env->GetStringUTFChars(path, nullptr);
     bool exists = ultralight::Platform::instance().file_system()->FileExists(pathStr);
     env->ReleaseStringUTFChars(path, pathStr);
     return exists ? JNI_TRUE : JNI_FALSE;
 }
 
-JNIEXPORT jstring JNICALL Java_net_rk4z_juef_JUEFFileSystem_JUEF_1getFileMimeType(JNIEnv* env, jobject obj, jstring path) {
+JNIEXPORT jstring JNICALL Java_net_rk4z_juef_JUEFFileSystem_getFileMimeType(JNIEnv* env, jobject obj, jstring path) {
     const char* pathStr = env->GetStringUTFChars(path, nullptr);
     ultralight::String mimeType = ultralight::Platform::instance().file_system()->GetFileMimeType(pathStr);
     env->ReleaseStringUTFChars(path, pathStr);
     return env->NewStringUTF(mimeType.utf8().data());
 }
 
-JNIEXPORT jstring JNICALL Java_net_rk4z_juef_JUEFFileSystem_JUEF_1getFileCharset(JNIEnv* env, jobject obj, jstring path) {
+JNIEXPORT jstring JNICALL Java_net_rk4z_juef_JUEFFileSystem_getFileCharset(JNIEnv* env, jobject obj, jstring path) {
     const char* pathStr = env->GetStringUTFChars(path, nullptr);
     ultralight::String charset = ultralight::Platform::instance().file_system()->GetFileCharset(pathStr);
     env->ReleaseStringUTFChars(path, pathStr);
     return env->NewStringUTF(charset.utf8().data());
 }
 
-JNIEXPORT jbyteArray JNICALL Java_net_rk4z_juef_JUEFFileSystem_JUEF_1openFile(JNIEnv* env, jobject obj, jstring path) {
+JNIEXPORT jbyteArray JNICALL Java_net_rk4z_juef_JUEFFileSystem_openFile(JNIEnv* env, jobject obj, jstring path) {
     const char* pathStr = env->GetStringUTFChars(path, nullptr);
     auto fileContent = ultralight::Platform::instance().file_system()->OpenFile(pathStr);
     env->ReleaseStringUTFChars(path, pathStr);
@@ -39,8 +38,8 @@ JNIEXPORT jbyteArray JNICALL Java_net_rk4z_juef_JUEFFileSystem_JUEF_1openFile(JN
         return nullptr;
     }
 
-    auto arraySize = static_cast<jsize>(fileContent->size());
+    jsize arraySize = static_cast<jsize>(fileContent->size());
     jbyteArray byteArray = env->NewByteArray(arraySize);
-    env->SetByteArrayRegion(byteArray, 0, arraySize, static_cast<const jbyte*>(fileContent->data()));
+    env->SetByteArrayRegion(byteArray, 0, arraySize, reinterpret_cast<const jbyte*>(fileContent->data()));
     return byteArray;
 }

@@ -5,19 +5,7 @@ public class JUEF {
         System.loadLibrary("JUEFNative");
     }
 
-    private static JUEF instance;
+    public native void init(JUEFSettings settings, JUEFConfig config);
 
-    private JUEF() {
-    }
-
-    public static JUEF getInstance() {
-        if (instance == null) {
-            instance = new JUEF();
-        }
-        return instance;
-    }
-
-    public native void JUEF_init(JUEFSettings settings, JUEFConfig config);
-
-    public native void JUEF_update();
+    public native void update();
 }

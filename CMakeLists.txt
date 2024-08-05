@@ -32,20 +32,15 @@ include_directories(${JNI_HEADERS_DIR})
 file(GLOB CPP_FILES "${CPP_SOURCE_DIR}/*.cpp")
 
 add_library(JUEFNative
-        src/main/cpp/h/JUEF.h
-        src/main/cpp/JUEFWindow.cpp
-        src/main/cpp/h/JUEFWindow.h
-        src/main/cpp/JUEFOverlay.cpp
-        src/main/cpp/h/JUEFOverlay.h
-        src/main/cpp/JUEFRenderer.cpp
-        src/main/cpp/h/JUEFRenderer.h
-        src/main/cpp/h/JUEFBitmap.h
-        src/main/cpp/JUEFBitmap.cpp
-        src/main/cpp/h/JUEFFontLoader.h
-        src/main/cpp/JUEFFontLoader.cpp
-        src/main/cpp/h/JUEFFileSystem.h
-        src/main/cpp/JUEFFileSystem.cpp
         src/main/cpp/JUEF.cpp
+        src/main/cpp/JUEFWindow.cpp
+        src/main/cpp/JUEFOverlay.cpp
+        src/main/cpp/JUEFRenderer.cpp
+        src/main/cpp/JUEFBitmap.cpp
+        src/main/cpp/JUEFFontLoader.cpp
+        src/main/cpp/JUEFFileSystem.cpp
+        src/main/cpp/JUEFClipboard.cpp
+        src/main/cpp/JUEFView.cpp
 )
 
 target_link_libraries(JUEFNative PRIVATE

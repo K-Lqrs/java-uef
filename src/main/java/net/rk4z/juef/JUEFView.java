@@ -1,21 +1,17 @@
 package net.rk4z.juef;
 
 public class JUEFView {
-    private final long handle;
+    private long handle;
 
-    public JUEFView(JUEFOverlay overlay) {
-        handle = overlay.getHandle();
+    public JUEFView(long viewHandle) {
+        this.handle = viewHandle;
     }
 
-    public native void JUEF_loadHTML(String html);
+    public native void loadHTML(long viewHandle, String html);
+    public native void evaluateScript(long viewHandle, String script);
+    public native void createInspectorView(long viewHandle);
 
-    public native void JUEF_evaluateScript(String script);
-
-    public native void JUEF_createInspectorView();
-
-    public native void JUEF_setLoadListener();
-
-    public native void JUEF_setViewListener();
-
-    public native void JUEF_setConfig();
+    public long getHandle() {
+        return handle;
+    }
 }

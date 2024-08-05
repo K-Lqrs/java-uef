@@ -1,4 +1,10 @@
-#include "h/JUEF.h"
+#include <jni.h>
+#include <AppCore/App.h>
+#include <AppCore/Window.h>
+#include <Ultralight/Renderer.h>
+#include <Ultralight/Session.h>
+
+using namespace ultralight;
 
 RefPtr<App> app;
 RefPtr<Renderer> renderer;
@@ -6,9 +12,10 @@ RefPtr<Session> session;
 
 extern "C" {
 
-JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEF_JUEF_1init(JNIEnv* env, jobject obj, jobject jSettings, jobject jConfig) {
+JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEF_init(JNIEnv* env, jobject obj, jobject jSettings, jobject jConfig) {
     jclass settingsClass = env->GetObjectClass(jSettings);
     if (settingsClass == nullptr) {
+        // エラーハンドリング
         return;
     }
 
@@ -41,6 +48,7 @@ JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEF_JUEF_1init(JNIEnv* env, jobject o
 
     jclass configClass = env->GetObjectClass(jConfig);
     if (configClass == nullptr) {
+        // エラーハンドリング
         return;
     }
 
@@ -74,7 +82,7 @@ JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEF_JUEF_1init(JNIEnv* env, jobject o
     app = App::Create(settings, config);
 }
 
-JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEF_JUEF_1update(JNIEnv* env, jobject obj) {
+JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEF_update(JNIEnv* env, jobject obj) {
     app->Run();
 }
 

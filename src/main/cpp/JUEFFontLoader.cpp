@@ -1,17 +1,16 @@
-#include "h/JUEFFontLoader.h"
+#include <jni.h>
 #include <Ultralight/platform/FontLoader.h>
 #include <Ultralight/platform/Platform.h>
 #include <Ultralight/String.h>
 
-JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEFFontLoader_JUEF_1loadFont(JNIEnv* env, jobject obj, jstring path) {
-    const char* pathStr = env->GetStringUTFChars(path, nullptr);
+JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEFFontLoader_loadFont(JNIEnv* env, jobject obj, jstring family, jint weight, jboolean italic) {
+    const char* familyStr = env->GetStringUTFChars(family, nullptr);
 
-    ultralight::String family(pathStr);
-    int weight = 400;
-    bool italic = false;
+    ultralight::String familyName(familyStr);
+    bool isItalic = static_cast<bool>(italic);
 
-    auto fontFile = ultralight::Platform::instance().font_loader()->Load(family, weight, italic);
-    env->ReleaseStringUTFChars(path, pathStr);
+    auto fontFile = ultralight::Platform::instance().font_loader()->Load(familyName, weight, isItalic);
+    env->ReleaseStringUTFChars(family, familyStr);
 
     if (!fontFile) {
         jclass ioException = env->FindClass("java/io/IOException");
@@ -19,9 +18,4 @@ JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEFFontLoader_JUEF_1loadFont(JNIEnv* 
             env->ThrowNew(ioException, "Failed to load font.");
         }
     }
-}
-
-JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEFFontLoader_JUEF_1fallbackFont(JNIEnv* env, jobject obj) {
-    // Call the method and ignore the result, since it returns void
-    ultralight::Platform::instance().font_loader()->fallback_font();
 }
