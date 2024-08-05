@@ -11,8 +11,7 @@ RefPtr<Renderer> renderer;
 RefPtr<Session> session;
 
 extern "C" {
-
-JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEF_init(JNIEnv* env, jobject obj, jobject jSettings, jobject jConfig) {
+JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEF_init(JNIEnv *env, jobject obj, jobject jSettings, jobject jConfig) {
     jclass settingsClass = env->GetObjectClass(jSettings);
     if (settingsClass == nullptr) {
         // エラーハンドリング
@@ -31,9 +30,9 @@ JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEF_init(JNIEnv* env, jobject obj, jo
     jboolean loadShadersFromFileSystem = env->GetBooleanField(jSettings, loadShadersFromFileSystemField);
     jboolean forceCpuRenderer = env->GetBooleanField(jSettings, forceCpuRendererField);
 
-    const char* developerNameStr = env->GetStringUTFChars(developerName, nullptr);
-    const char* appNameStr = env->GetStringUTFChars(appName, nullptr);
-    const char* fileSystemPathStr = env->GetStringUTFChars(fileSystemPath, nullptr);
+    const char *developerNameStr = env->GetStringUTFChars(developerName, nullptr);
+    const char *appNameStr = env->GetStringUTFChars(appName, nullptr);
+    const char *fileSystemPathStr = env->GetStringUTFChars(fileSystemPath, nullptr);
 
     Settings settings;
     settings.developer_name = developerNameStr;
@@ -64,9 +63,9 @@ JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEF_init(JNIEnv* env, jobject obj, jo
     auto userStylesheet = static_cast<jstring>(env->GetObjectField(jConfig, userStylesheetField));
     jboolean forceRepaint = env->GetBooleanField(jConfig, forceRepaintField);
 
-    const char* cachePathStr = env->GetStringUTFChars(cachePath, nullptr);
-    const char* resourcePathPrefixStr = env->GetStringUTFChars(resourcePathPrefix, nullptr);
-    const char* userStylesheetStr = env->GetStringUTFChars(userStylesheet, nullptr);
+    const char *cachePathStr = env->GetStringUTFChars(cachePath, nullptr);
+    const char *resourcePathPrefixStr = env->GetStringUTFChars(resourcePathPrefix, nullptr);
+    const char *userStylesheetStr = env->GetStringUTFChars(userStylesheet, nullptr);
 
     Config config;
     config.cache_path = cachePathStr;
@@ -82,8 +81,15 @@ JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEF_init(JNIEnv* env, jobject obj, jo
     app = App::Create(settings, config);
 }
 
-JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEF_update(JNIEnv* env, jobject obj) {
-    app->Run();
+JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEF_quit(JNIEnv *env, jobject obj) {
+    if (app) {
+        app->Quit();
+    }
 }
 
+JNIEXPORT void JNICALL Java_net_rk4z_juef_JUEF_update(JNIEnv *env, jobject obj) {
+    if (app) {
+        app->Run();
+    }
+}
 }

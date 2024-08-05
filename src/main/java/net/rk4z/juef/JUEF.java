@@ -8,4 +8,6 @@ public class JUEF {
     public native void init(JUEFSettings settings, JUEFConfig config);
 
     public native void update();
+
+    public native void quit();
 }
