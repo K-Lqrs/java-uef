@@ -5,32 +5,19 @@ public class JUEF {
         System.loadLibrary("JUEFNative");
     }
 
-    // Example usage
-    public static void main(String[] args) {
-        JUEF juef = new JUEF();
-        JUEFSettings settings = new JUEFSettings("DeveloperName", "AppName", "./assets/", false, false);
-        JUEFConfig config = new JUEFConfig("./cache", "resources/", 1.8, "", false);
+    private static JUEF instance;
 
-        juef.init(settings, config);
-
-        long windowHandle = juef.createWindow(800, 600, "JUEF Window");
-        long overlayHandle = juef.createOverlay(windowHandle, 800, 600, 0, 0);
-
-        juef.loadURL(overlayHandle, "file:///path/to/your/local/file.html");
-
-        // Run the update loop
-        juef.update();
+    private JUEF() {
     }
 
-    public native void init(JUEFSettings settings, JUEFConfig config);
+    public static JUEF getInstance() {
+        if (instance == null) {
+            instance = new JUEF();
+        }
+        return instance;
+    }
 
-    public native long createWindow(int width, int height, String title);
+    public native void JUEF_init(JUEFSettings settings, JUEFConfig config);
 
-    public native long createOverlay(long windowHandle, int width, int height, int x, int y);
-
-    public native void loadURL(long overlayHandle, String url);
-
-    public native void loadHTML(long overlayHandle, String html);
-
-    public native void update();
+    public native void JUEF_update();
 }
