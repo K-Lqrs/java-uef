@@ -1,0 +1,3 @@
+C:/Users/main/CLionProjects/Java-UEF/cmake-build-debug/CMakeFiles/JavaUEF.dir
+C:/Users/main/CLionProjects/Java-UEF/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/main/CLionProjects/Java-UEF/cmake-build-debug/CMakeFiles/rebuild_cache.dir

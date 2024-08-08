@@ -1,51 +1,40 @@
 cmake_minimum_required(VERSION 3.10)
+project(JavaUEF)
 
-project(JUEF)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-
-find_package(Java REQUIRED)
+# JavaとJNIを探します
 find_package(JNI REQUIRED)
 
-set(JAVA_SOURCE_DIR "${PROJECT_SOURCE_DIR}/src/main/java")
-
-set(CPP_SOURCE_DIR "${PROJECT_SOURCE_DIR}/src/main/cpp")
-
-file(GLOB JAVA_FILES "${JAVA_SOURCE_DIR}/net/rk4z/juef/*.java")
-
-set(JNI_HEADERS_DIR "${CMAKE_BINARY_DIR}/generated")
-file(MAKE_DIRECTORY ${JNI_HEADERS_DIR})
-
-add_custom_command(
-        OUTPUT ${JNI_HEADERS_DIR}/net_rk4z_juef_JUEF.h
-        COMMAND ${Java_JAVAC_EXECUTABLE} -d ${CMAKE_BINARY_DIR}/classes -h ${JNI_HEADERS_DIR} ${JAVA_FILES}
-        DEPENDS ${JAVA_FILES}
-        COMMENT "Generating JNI headers and compiling Java classes"
-)
-
-include_directories("lib/ultralight-sdk-1.3.0-win-x64/include")
-
+# Ultralightのヘッダーファイルのディレクトリを設定します
 include_directories(${JNI_INCLUDE_DIRS})
-include_directories(${JNI_HEADERS_DIR})
 
-file(GLOB CPP_FILES "${CPP_SOURCE_DIR}/*.cpp")
+# native/includeディレクトリ内のすべてのヘッダーファイルを含めます
+include_directories(${PROJECT_SOURCE_DIR}/native/include)
 
-add_library(JUEFNative
-        src/main/cpp/JUEF.cpp
-        src/main/cpp/JUEFWindow.cpp
-        src/main/cpp/JUEFOverlay.cpp
-        src/main/cpp/JUEFRenderer.cpp
-        src/main/cpp/JUEFBitmap.cpp
-        src/main/cpp/JUEFFontLoader.cpp
-        src/main/cpp/JUEFFileSystem.cpp
-        src/main/cpp/JUEFClipboard.cpp
-        src/main/cpp/JUEFView.cpp
-)
+# プラットフォームごとのライブラリディレクトリを設定します
+if (WIN32)
+    set(ULTRALIGHT_LIB_DIR "${PROJECT_SOURCE_DIR}/native/lib/win")
+    set(ULTRALIGHT_LIB "Ultralight")
+elseif (APPLE)
+    set(ULTRALIGHT_LIB_DIR "${PROJECT_SOURCE_DIR}/native/lib/mac")
+    set(ULTRALIGHT_LIB "Ultralight")
+elseif (UNIX)
+    set(ULTRALIGHT_LIB_DIR "${PROJECT_SOURCE_DIR}/native/lib/linux")
+    set(ULTRALIGHT_LIB "Ultralight")
+endif ()
 
-target_link_libraries(JUEFNative PRIVATE
-        lib/ultralight-sdk-1.3.0-win-x64/bin/AppCore.dll
-        lib/ultralight-sdk-1.3.0-win-x64/bin/Ultralight.dll
-        lib/ultralight-sdk-1.3.0-win-x64/bin/UltralightCore.dll
-        lib/ultralight-sdk-1.3.0-win-x64/bin/WebCore.dll
+# ネイティブソースファイルをすべて取得します
+file(GLOB NATIVE_SOURCES "${PROJECT_SOURCE_DIR}/native/src/*.cpp")
+
+# ネイティブライブラリをビルドする
+add_library(JavaUEF SHARED ${NATIVE_SOURCES})
+
+add_library(ultralight SHARED IMPORTED)
+
+# ライブラリディレクトリとリンクするライブラリを設定します
+target_link_libraries(JavaUEF ${JNI_LIBRARIES})
+target_link_libraries(JavaUEF ${ULTRALIGHT_LIB_DIR}/${ULTRALIGHT_LIB})
+
+# 出力ディレクトリを設定します
+set_target_properties(JavaUEF PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/native/out
 )
