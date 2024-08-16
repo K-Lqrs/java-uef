@@ -2,3 +2,4 @@
 .gradle
 build
 native/code
+cmake-build-debug
