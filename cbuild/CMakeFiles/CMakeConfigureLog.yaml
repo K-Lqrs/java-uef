@@ -1,0 +1,344 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineSystem.cmake:205 (message)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      The system is: Windows - 10.0.22631 - AMD64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.10.4+10fbfbf2e (.NET Framework)
+      2024/08/16 16:34:25 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
+      
+      繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
+      PrepareForBuild:
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\CompilerIdC.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+      InitializeBuildStatus:
+        "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+      ClCompile:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TC /FC /errorReport:queue CMakeCCompilerId.c
+        CMakeCCompilerId.c
+      Link:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdC.lib" /MACHINE:X64 Debug\\CMakeCCompilerId.obj
+        CompilerIdC.vcxproj -> C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_C_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_C_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        繝輔ぃ繧､繝ｫ "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" 繧貞炎髯､縺励※縺・∪縺吶\xc2\x80・
+        "Debug\\CompilerIdC.tlog\\CompilerIdC.lastbuildstate" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+      繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\3.30.2\\CompilerIdC\\CompilerIdC.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′螳御ｺ・＠縺ｾ縺励◆縲・
+      
+      繝薙Ν繝峨↓謌仙粥縺励∪縺励◆縲・
+          0 蛟九・隴ｦ蜻・
+          0 繧ｨ繝ｩ繝ｼ
+      
+      邨碁℃譎る俣 00:00:01.14
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.vcxproj"
+      
+      The C compiler identification is MSVC, found in:
+        C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/3.30.2/CompilerIdC/CompilerIdC.exe
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.10.4+10fbfbf2e (.NET Framework)
+      2024/08/16 16:34:26 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
+      
+      繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
+      PrepareForBuild:
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\CompilerIdCXX.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+      InitializeBuildStatus:
+        "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+      ClCompile:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      Link:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
+        CompilerIdCXX.vcxproj -> C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_CXX_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        繝輔ぃ繧､繝ｫ "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" 繧貞炎髯､縺励※縺・∪縺吶\xc2\x80・
+        "Debug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+      繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\3.30.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′螳御ｺ・＠縺ｾ縺励◆縲・
+      
+      繝薙Ν繝峨↓謌仙粥縺励∪縺励◆縲・
+          0 蛟九・隴ｦ蜻・
+          0 繧ｨ繝ｩ繝ｼ
+      
+      邨碁℃譎る俣 00:00:01.12
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
+      
+      The CXX compiler identification is MSVC, found in:
+        C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/3.30.2/CompilerIdCXX/CompilerIdCXX.exe
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/CMakeScratch/TryCompile-fo40fy"
+      binary: "C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/CMakeScratch/TryCompile-fo40fy"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/CMakeScratch/TryCompile-fo40fy'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_e64a0.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.10.4+10fbfbf2e (.NET Framework)
+        2024/08/16 16:34:28 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
+        
+        繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-fo40fy\\cmTC_e64a0.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
+        PrepareForBuild:
+          繝・ぅ繝ｬ繧ｯ繝医Μ "cmTC_e64a0.dir\\Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-fo40fy\\Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "cmTC_e64a0.dir\\Debug\\cmTC_e64a0.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        InitializeBuildStatus:
+          "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "cmTC_e64a0.dir\\Debug\\cmTC_e64a0.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_e64a0.dir\\Debug\\cmTC_e64a0.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e64a0.dir\\Debug\\\\" /Fd"cmTC_e64a0.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.30\\Modules\\CMakeCCompilerABI.c"
+          Microsoft(R) C/C++ Optimizing Compiler Version 19.40.33813 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e64a0.dir\\Debug\\\\" /Fd"cmTC_e64a0.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.30\\Modules\\CMakeCCompilerABI.c"
+          CMakeCCompilerABI.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-fo40fy\\Debug\\cmTC_e64a0.exe" /INCREMENTAL /ILK:"cmTC_e64a0.dir\\Debug\\cmTC_e64a0.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/CMakeScratch/TryCompile-fo40fy/Debug/cmTC_e64a0.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/CMakeScratch/TryCompile-fo40fy/Debug/cmTC_e64a0.lib" /MACHINE:X64  /machine:x64 cmTC_e64a0.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_e64a0.vcxproj -> C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-fo40fy\\Debug\\cmTC_e64a0.exe
+        FinalizeBuildStatus:
+          繝輔ぃ繧､繝ｫ "cmTC_e64a0.dir\\Debug\\cmTC_e64a0.tlog\\unsuccessfulbuild" 繧貞炎髯､縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_e64a0.dir\\Debug\\cmTC_e64a0.tlog\\cmTC_e64a0.lastbuildstate" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+        繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-fo40fy\\cmTC_e64a0.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′螳御ｺ・＠縺ｾ縺励◆縲・
+        
+        繝薙Ν繝峨↓謌仙粥縺励∪縺励◆縲・
+            0 蛟九・隴ｦ蜻・
+            0 繧ｨ繝ｩ繝ｼ
+        
+        邨碁℃譎る俣 00:00:01.07
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'C': C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.40.33807/bin/HostX64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the C compiler's linker: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.40.33807/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.40.33813.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/CMakeScratch/TryCompile-zbuh53"
+      binary: "C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/CMakeScratch/TryCompile-zbuh53"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/CMakeScratch/TryCompile-zbuh53'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_d51e1.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.10.4+10fbfbf2e (.NET Framework)
+        2024/08/16 16:34:29 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
+        
+        繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-zbuh53\\cmTC_d51e1.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
+        PrepareForBuild:
+          繝・ぅ繝ｬ繧ｯ繝医Μ "cmTC_d51e1.dir\\Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-zbuh53\\Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "cmTC_d51e1.dir\\Debug\\cmTC_d51e1.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        InitializeBuildStatus:
+          "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "cmTC_d51e1.dir\\Debug\\cmTC_d51e1.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_d51e1.dir\\Debug\\cmTC_d51e1.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_d51e1.dir\\Debug\\\\" /Fd"cmTC_d51e1.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.30\\Modules\\CMakeCXXCompilerABI.cpp"
+          Microsoft(R) C/C++ Optimizing Compiler Version 19.40.33813 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_d51e1.dir\\Debug\\\\" /Fd"cmTC_d51e1.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.30\\Modules\\CMakeCXXCompilerABI.cpp"
+          CMakeCXXCompilerABI.cpp
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-zbuh53\\Debug\\cmTC_d51e1.exe" /INCREMENTAL /ILK:"cmTC_d51e1.dir\\Debug\\cmTC_d51e1.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/CMakeScratch/TryCompile-zbuh53/Debug/cmTC_d51e1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/CMakeScratch/TryCompile-zbuh53/Debug/cmTC_d51e1.lib" /MACHINE:X64  /machine:x64 cmTC_d51e1.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_d51e1.vcxproj -> C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-zbuh53\\Debug\\cmTC_d51e1.exe
+        FinalizeBuildStatus:
+          繝輔ぃ繧､繝ｫ "cmTC_d51e1.dir\\Debug\\cmTC_d51e1.tlog\\unsuccessfulbuild" 繧貞炎髯､縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_d51e1.dir\\Debug\\cmTC_d51e1.tlog\\cmTC_d51e1.lastbuildstate" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+        繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-zbuh53\\cmTC_d51e1.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′螳御ｺ・＠縺ｾ縺励◆縲・
+        
+        繝薙Ν繝峨↓謌仙粥縺励∪縺励◆縲・
+            0 蛟九・隴ｦ蜻・
+            0 繧ｨ繝ｩ繝ｼ
+        
+        邨碁℃譎る俣 00:00:01.08
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'CXX': C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.40.33807/bin/HostX64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the CXX compiler's linker: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.40.33807/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.40.33813.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/CheckSourceCompiles.cmake:77 (cmake_check_source_compiles)"
+      - "C:/Program Files/CMake/share/cmake-3.30/Modules/FindJNI.cmake:485 (check_source_compiles)"
+      - "CMakeLists.txt:10 (find_package)"
+    directories:
+      source: "C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/CMakeScratch/TryCompile-gg9o8o"
+      binary: "C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/CMakeScratch/TryCompile-gg9o8o"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
+      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "JNI_INCLUDE_PATH2_OPTIONAL"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/CMakeScratch/TryCompile-gg9o8o'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_632ad.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 17.10.4+10fbfbf2e (.NET Framework)
+        2024/08/16 16:34:31 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
+        
+        繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-gg9o8o\\cmTC_632ad.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
+        PrepareForBuild:
+          繝・ぅ繝ｬ繧ｯ繝医Μ "cmTC_632ad.dir\\Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-gg9o8o\\Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "cmTC_632ad.dir\\Debug\\cmTC_632ad.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        InitializeBuildStatus:
+          "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "cmTC_632ad.dir\\Debug\\cmTC_632ad.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_632ad.dir\\Debug\\cmTC_632ad.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\HostX64\\x64\\CL.exe /c /I"C:\\Program Files\\Java\\jdk-21\\include" /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D JNI_INCLUDE_PATH2_OPTIONAL /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_632ad.dir\\Debug\\\\" /Fd"cmTC_632ad.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-gg9o8o\\src.c"
+          Microsoft(R) C/C++ Optimizing Compiler Version 19.40.33813 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /I"C:\\Program Files\\Java\\jdk-21\\include" /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D JNI_INCLUDE_PATH2_OPTIONAL /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_632ad.dir\\Debug\\\\" /Fd"cmTC_632ad.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-gg9o8o\\src.c"
+          src.c
+        C:\\Program Files\\Java\\jdk-21\\include\\jni.h(45,10): error C1083: include 繝輔ぃ繧､繝ｫ繧帝幕縺代∪縺帙ｓ縲・jni_md.h':No such file or directory [C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-gg9o8o\\cmTC_632ad.vcxproj]
+          (繧ｽ繝ｼ繧ｹ 繝輔ぃ繧､繝ｫ 'src.c' 繧偵さ繝ｳ繝代う繝ｫ縺励※縺・∪縺・
+          
+        繝励Ο繧ｸ繧ｧ繧ｯ繝・"C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-gg9o8o\\cmTC_632ad.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′邨ゆｺ・＠縺ｾ縺励◆ -- 螟ｱ謨励\xc2\x80・
+        
+        繝薙Ν繝峨↓螟ｱ謨励＠縺ｾ縺励◆縲・
+        
+        "C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-gg9o8o\\cmTC_632ad.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) (1) ->
+        (ClCompile 繧ｿ繝ｼ繧ｲ繝・ヨ) -> 
+          C:\\Program Files\\Java\\jdk-21\\include\\jni.h(45,10): error C1083: include 繝輔ぃ繧､繝ｫ繧帝幕縺代∪縺帙ｓ縲・jni_md.h':No such file or directory [C:\\Users\\main\\CLionProjects\\Java-UEF\\cbuild\\CMakeFiles\\CMakeScratch\\TryCompile-gg9o8o\\cmTC_632ad.vcxproj]
+        
+            0 蛟九・隴ｦ蜻・
+            1 繧ｨ繝ｩ繝ｼ
+        
+        邨碁℃譎る俣 00:00:01.03
+        
+      exitCode: 1
+...
