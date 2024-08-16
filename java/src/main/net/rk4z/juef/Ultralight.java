@@ -9,7 +9,7 @@ public class Ultralight {
                     "UltralightCore.dll",
                     "WebCore.dll",
                     "Ultralight.dll",
-                    "AppCore.dll",
+                    "AppCore.dll"
             };
 
             for (String lib : libs) {
@@ -26,17 +26,29 @@ public class Ultralight {
     private long windowPtr;
     private long viewPtr;
 
+
     private native long createWindow(int width, int height);
     private native long createView(long windowPtr, int width, int height);
     private native void loadHTMLFile(long viewPtr, String filePath);
     private native void render(long windowPtr);
 
     public Ultralight(int width, int height) {
-        windowPtr = createWindow(width, height);
+        System.out.println("Creating Ultralight instance...");
+        try {
+            windowPtr = createWindow(width, height);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (windowPtr == 0) {
             throw new IllegalStateException("Failed to create window.");
         }
-        viewPtr = createView(windowPtr, width, height);
+
+        System.out.println("Creating view...");
+        try {
+            viewPtr = createView(windowPtr, width, height);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (viewPtr == 0) {
             throw new IllegalStateException("Failed to create view.");
         }

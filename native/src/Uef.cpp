@@ -1,6 +1,7 @@
 #include <jni.h>
 #include <string>
 #include <AppCore/App.h>
+#include <AppCore/Monitor.h>
 #include <Ultralight/platform/Config.h>
 #include <AppCore/Window.h>
 #include <AppCore/Overlay.h>
@@ -10,28 +11,51 @@ using namespace ultralight;
 
 extern "C" {
     JNIEXPORT jlong JNICALL Java_net_rk4z_juef_Ultralight_createWindow(JNIEnv* env, jobject obj, jint width, jint height) {
-        std::cout << "Creating window with width: " << width << " and height: " << height << std::endl;
+    std::cout << "Creating window with width: " << width << " and height: " << height << std::endl;
 
-        Settings settings;
-        Config config;
+    // Settings の詳細設定
+    Settings settings;
+    settings.force_cpu_renderer = true;
 
-        RefPtr<App> app = App::Create(settings, config);
-        if (!app) {
-            std::cerr << "Failed to create Ultralight App instance." << std::endl;
-            return 0;
-        }
+    // Config の詳細設定
+    Config config;
+    config.face_winding = FaceWinding::Clockwise; // 時計回りの面
+    config.cache_path = "ultralight_cache"; // キャッシュのパスを設定
 
-        RefPtr<Window> window = Window::Create(app->main_monitor(), width, height, false, kWindowFlags_Resizable);
-        if (!window) {
-            std::cerr << "Failed to create Window instance or window is invalid." << std::endl;
-            return 0;
-        }
+    std::cout << "Attempting to create Ultralight App instance with specified Settings and Config..." << std::endl;
 
-        std::cout << "Window created successfully. Pointer: " << window.get() << std::endl;
-        return reinterpret_cast<jlong>(window.get());
+    RefPtr<App> app = App::Create(settings, config);
+
+    if (!app) {
+        std::cerr << "Failed to create Ultralight App instance." << std::endl;
+        return 0;
+    }
+    std::cout << "Ultralight App instance created successfully." << std::endl;
+
+    if (App::instance()) {
+        std::cout << "System Information:" << std::endl;
+        std::cout << "Main Monitor Resolution: " << App::instance()->main_monitor()->width()
+                  << "x" << App::instance()->main_monitor()->height() << std::endl;
+    } else {
+        std::cerr << "App::instance() returned null!" << std::endl;
+        return 0;
     }
 
+    // ウィンドウの作成
+    RefPtr<Window> window = Window::Create(app->main_monitor(), width, height, false, kWindowFlags_Resizable);
+    if (!window) {
+        std::cerr << "Failed to create Window instance or window is invalid." << std::endl;
+        return 0;
+    }
+    std::cout << "Window created successfully. Pointer: " << window.get() << std::endl;
 
+    // ウィンドウの状態確認
+    std::cout << "Window is valid: " << (window ? "Yes" : "No") << std::endl;
+    std::cout << "Window width: " << window->width() << std::endl;
+    std::cout << "Window height: " << window->height() << std::endl;
+
+    return reinterpret_cast<jlong>(window.get());
+}
     JNIEXPORT jlong JNICALL Java_net_rk4z_juef_Ultralight_createView(JNIEnv* env, jobject obj, jlong windowPtr, jint width, jint height) {
         std::cout << "Creating view with width: " << width << " and height: " << height << std::endl;
 

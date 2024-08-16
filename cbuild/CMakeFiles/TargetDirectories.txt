@@ -1,3 +1,0 @@
-C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/JavaUEF.dir
-C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/ALL_BUILD.dir
-C:/Users/main/CLionProjects/Java-UEF/cbuild/CMakeFiles/ZERO_CHECK.dir
