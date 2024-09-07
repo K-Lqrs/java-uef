@@ -1,7 +1,5 @@
 package net.rk4z.juef;
 
-import java.nio.file.Paths;
-
 import static net.rk4z.juef.Uef.uefDir;
 
 public class UefSettings {

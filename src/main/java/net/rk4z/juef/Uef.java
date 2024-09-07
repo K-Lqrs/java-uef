@@ -15,13 +15,18 @@ public class Uef {
     private static final String roamingDir = Paths.get(System.getenv("APPDATA")).toString();
     public static String uefDir = Paths.get(roamingDir, "Uef").toString();
     public static Logger logger = LoggerFactory.getLogger(Uef.class.getSimpleName());
+    private final UefApp app;
+
+    public Uef() {
+        app = new UefApp();
+    }
 
     @NotNull
-    public static String getOperatingSystem() {
+    private String getOperatingSystem() {
         return System.getProperty("os.name").toLowerCase();
     }
 
-    public static void downloadFile(String fileUrl, @NotNull Path savePath) throws IOException {
+    private void downloadFile(String fileUrl, @NotNull Path savePath) throws IOException {
         Files.createDirectories(savePath.getParent());
         if (Files.notExists(savePath)) {
             URL url = new URL(fileUrl);
@@ -35,7 +40,7 @@ public class Uef {
     }
 
     @NotNull
-    public static String getLibraryExtension() {
+    private String getLibraryExtension() {
         String os = getOperatingSystem();
         if (os.contains("win")) {
             return ".dll";
@@ -48,7 +53,7 @@ public class Uef {
         }
     }
 
-    public static void extractLibrariesAndLoad() {
+    public void extractLibrariesAndLoad() {
         try {
             String[] libraries = {
                     "UltralightCore",
@@ -76,5 +81,9 @@ public class Uef {
         } catch (IOException e) {
             logger.error("Failed to extract libraries and load", e);
         }
+    }
+
+    public UefApp getApp() {
+        return app;
     }
 }
