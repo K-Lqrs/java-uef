@@ -1,0 +1,4 @@
+sdk
+.gradle
+.idea
+cmake-build-debug
