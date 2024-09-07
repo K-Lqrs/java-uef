@@ -13,7 +13,7 @@ extern "C" {
  * Signature: (Lnet/rk4z/juef/UefConfig;Lnet/rk4z/juef/UefSettings;)V
  */
 JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_createApp
-  (JNIEnv *, jobject, jobject, jobject);
+  (JNIEnv *, jclass, jobject, jobject);
 
 #ifdef __cplusplus
 }

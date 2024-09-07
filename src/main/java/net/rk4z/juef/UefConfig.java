@@ -24,18 +24,9 @@ public class UefConfig {
     private final double maxUpdateTime;
     private final long bitmapAlignment;
 
-    public UefConfig(@NotNull UefSettings settings) {
-        String appDataPath = System.getenv("APPDATA");
-
-        String baseDir = appDataPath + "\\Uef\\" + settings.getDeveloperName() + "\\" + settings.getAppName() + "\\";
-
-        File baseDirFile = new File(baseDir);
-        if (!baseDirFile.exists()) {
-            baseDirFile.mkdirs();
-        }
-
-        this.cachePath = baseDir + ".cache/";
-        this.resourcePathPrefix = baseDir + "resources/";
+    public UefConfig() {
+        this.cachePath = ".cache/";
+        this.resourcePathPrefix = "resources/";
         this.faceWinding = FaceWinding.CounterClockwise;
         this.fontHinting = FontHinting.Normal;
         this.fontGamma = 1.8;

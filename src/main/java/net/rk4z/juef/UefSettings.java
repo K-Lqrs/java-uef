@@ -1,5 +1,9 @@
 package net.rk4z.juef;
 
+import java.nio.file.Paths;
+
+import static net.rk4z.juef.Uef.uefDir;
+
 public class UefSettings {
     private final String developerName;
     private final String appName;
@@ -10,7 +14,7 @@ public class UefSettings {
     public UefSettings() {
         this.developerName = "MyCompany";
         this.appName = "MyApp";
-        this.fileSystemPath = "./assets/";
+        this.fileSystemPath = uefDir + "./assets/";
         this.loadShadersFromFileSystem = false;
         this.forceCpuRenderer = false;
     }

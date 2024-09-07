@@ -1,5 +1,6 @@
 #include "UefApp.h"
-#include <string>
+
+#include <memory>
 #include <AppCore/App.h>
 
 extern "C" {
@@ -41,4 +42,5 @@ extern "C" {
 
         App::Create(settings);
     }
+
 }
