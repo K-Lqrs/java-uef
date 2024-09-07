@@ -1,0 +1,3 @@
+C:/Users/main/IdeaProjects/java-uef/cbuild/CMakeFiles/Uef.dir
+C:/Users/main/IdeaProjects/java-uef/cbuild/CMakeFiles/ALL_BUILD.dir
+C:/Users/main/IdeaProjects/java-uef/cbuild/CMakeFiles/ZERO_CHECK.dir

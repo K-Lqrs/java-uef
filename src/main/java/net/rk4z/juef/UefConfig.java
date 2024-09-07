@@ -1,26 +1,58 @@
 package net.rk4z.juef;
 
-public class UefConfig {
-    private String cachePath;
-    private String resourcePathPrefix = "resources/";
-    private FaceWinding faceWinding = FaceWinding.CounterClockwise;  // Enumを使用
-    private FontHinting fontHinting = FontHinting.Normal;  // Enumを使用
-    private double fontGamma = 1.8;
-    private String userStylesheet;
-    private boolean forceRepaint = false;
-    private double animationTimerDelay = 1.0 / 60.0;
-    private double scrollTimerDelay = 1.0 / 60.0;
-    private double recycleDelay = 4.0;
-    private long memoryCacheSize = 64 * 1024 * 1024;
-    private long pageCacheSize = 0;
-    private long overrideRamSize = 0;
-    private long minLargeHeapSize = 32 * 1024 * 1024;
-    private long minSmallHeapSize = 1 * 1024 * 1024;
-    private long numRendererThreads = 0;
-    private double maxUpdateTime = 1.0 / 200.0;
-    private long bitmapAlignment = 16;
+import org.jetbrains.annotations.NotNull;
 
-    public UefConfig() {}
+import java.io.File;
+
+public class UefConfig {
+    private final String cachePath;
+    private final String resourcePathPrefix;
+    private final FaceWinding faceWinding;
+    private final FontHinting fontHinting; // Enumを使用
+    private final double fontGamma;
+    private final String userStylesheet;
+    private final boolean forceRepaint;
+    private final double animationTimerDelay;
+    private final double scrollTimerDelay;
+    private final double recycleDelay;
+    private final long memoryCacheSize;
+    private final long pageCacheSize;
+    private final long overrideRamSize;
+    private final long minLargeHeapSize;
+    private final long minSmallHeapSize;
+    private final long numRendererThreads;
+    private final double maxUpdateTime;
+    private final long bitmapAlignment;
+
+    public UefConfig(@NotNull UefSettings settings) {
+        String appDataPath = System.getenv("APPDATA");
+
+        String baseDir = appDataPath + "\\Uef\\" + settings.getDeveloperName() + "\\" + settings.getAppName() + "\\";
+
+        File baseDirFile = new File(baseDir);
+        if (!baseDirFile.exists()) {
+            baseDirFile.mkdirs();
+        }
+
+        this.cachePath = baseDir + ".cache/";
+        this.resourcePathPrefix = baseDir + "resources/";
+        this.faceWinding = FaceWinding.CounterClockwise;
+        this.fontHinting = FontHinting.Normal;
+        this.fontGamma = 1.8;
+        this.userStylesheet = "";
+        this.forceRepaint = false;
+        this.animationTimerDelay = 1.0 / 60.0;
+        this.scrollTimerDelay = 1.0 / 60.0;
+        this.recycleDelay = 4.0;
+        this.memoryCacheSize = 64 * 1024 * 1024;
+        this.pageCacheSize = 0;
+        this.overrideRamSize = 0;
+        this.minLargeHeapSize = 32 * 1024 * 1024;
+        this.minSmallHeapSize = 1 * 1024 * 1024;
+        this.numRendererThreads = 0;
+        this.maxUpdateTime = 1.0 / 200.0;
+        this.bitmapAlignment = 16;
+    }
 
     public UefConfig(String cachePath, String resourcePathPrefix, FaceWinding faceWinding, FontHinting fontHinting,
                      double fontGamma, String userStylesheet, boolean forceRepaint, double animationTimerDelay,
@@ -45,175 +77,6 @@ public class UefConfig {
         this.numRendererThreads = numRendererThreads;
         this.maxUpdateTime = maxUpdateTime;
         this.bitmapAlignment = bitmapAlignment;
-    }
-
-    // ゲッターとセッター
-    public String getCachePath() {
-        return cachePath;
-    }
-
-    public void setCachePath(String cachePath) {
-        this.cachePath = cachePath;
-    }
-
-    public String getResourcePathPrefix() {
-        return resourcePathPrefix;
-    }
-
-    public void setResourcePathPrefix(String resourcePathPrefix) {
-        this.resourcePathPrefix = resourcePathPrefix;
-    }
-
-    public FaceWinding getFaceWinding() {
-        return faceWinding;
-    }
-
-    public void setFaceWinding(FaceWinding faceWinding) {
-        this.faceWinding = faceWinding;
-    }
-
-    public FontHinting getFontHinting() {
-        return fontHinting;
-    }
-
-    public void setFontHinting(FontHinting fontHinting) {
-        this.fontHinting = fontHinting;
-    }
-
-    public double getFontGamma() {
-        return fontGamma;
-    }
-
-    public void setFontGamma(double fontGamma) {
-        this.fontGamma = fontGamma;
-    }
-
-    public String getUserStylesheet() {
-        return userStylesheet;
-    }
-
-    public void setUserStylesheet(String userStylesheet) {
-        this.userStylesheet = userStylesheet;
-    }
-
-    public boolean isForceRepaint() {
-        return forceRepaint;
-    }
-
-    public void setForceRepaint(boolean forceRepaint) {
-        this.forceRepaint = forceRepaint;
-    }
-
-    public double getAnimationTimerDelay() {
-        return animationTimerDelay;
-    }
-
-    public void setAnimationTimerDelay(double animationTimerDelay) {
-        this.animationTimerDelay = animationTimerDelay;
-    }
-
-    public double getScrollTimerDelay() {
-        return scrollTimerDelay;
-    }
-
-    public void setScrollTimerDelay(double scrollTimerDelay) {
-        this.scrollTimerDelay = scrollTimerDelay;
-    }
-
-    public double getRecycleDelay() {
-        return recycleDelay;
-    }
-
-    public void setRecycleDelay(double recycleDelay) {
-        this.recycleDelay = recycleDelay;
-    }
-
-    public long getMemoryCacheSize() {
-        return memoryCacheSize;
-    }
-
-    public void setMemoryCacheSize(long memoryCacheSize) {
-        this.memoryCacheSize = memoryCacheSize;
-    }
-
-    public long getPageCacheSize() {
-        return pageCacheSize;
-    }
-
-    public void setPageCacheSize(long pageCacheSize) {
-        this.pageCacheSize = pageCacheSize;
-    }
-
-    public long getOverrideRamSize() {
-        return overrideRamSize;
-    }
-
-    public void setOverrideRamSize(long overrideRamSize) {
-        this.overrideRamSize = overrideRamSize;
-    }
-
-    public long getMinLargeHeapSize() {
-        return minLargeHeapSize;
-    }
-
-    public void setMinLargeHeapSize(long minLargeHeapSize) {
-        this.minLargeHeapSize = minLargeHeapSize;
-    }
-
-    public long getMinSmallHeapSize() {
-        return minSmallHeapSize;
-    }
-
-    public void setMinSmallHeapSize(long minSmallHeapSize) {
-        this.minSmallHeapSize = minSmallHeapSize;
-    }
-
-    public long getNumRendererThreads() {
-        return numRendererThreads;
-    }
-
-    public void setNumRendererThreads(long numRendererThreads) {
-        this.numRendererThreads = numRendererThreads;
-    }
-
-    public double getMaxUpdateTime() {
-        return maxUpdateTime;
-    }
-
-    public void setMaxUpdateTime(double maxUpdateTime) {
-        this.maxUpdateTime = maxUpdateTime;
-    }
-
-    public long getBitmapAlignment() {
-        return bitmapAlignment;
-    }
-
-    public void setBitmapAlignment(long bitmapAlignment) {
-        this.bitmapAlignment = bitmapAlignment;
-    }
-
-    @Override
-    public String toString() {
-        return "UefConfig{" +
-                "cachePath='" + cachePath + '\'' +
-                ", resourcePathPrefix='" + resourcePathPrefix + '\'' +
-                ", faceWinding=" + faceWinding +
-                ", fontHinting=" + fontHinting +
-                ", fontGamma=" + fontGamma +
-                ", userStylesheet='" + userStylesheet + '\'' +
-                ", forceRepaint=" + forceRepaint +
-                ", animationTimerDelay=" + animationTimerDelay +
-                ", scrollTimerDelay=" + scrollTimerDelay +
-                ", recycleDelay=" + recycleDelay +
-                ", memoryCacheSize=" + memoryCacheSize +
-                ", pageCacheSize=" + pageCacheSize +
-                ", overrideRamSize=" + overrideRamSize +
-                ", minLargeHeapSize=" + minLargeHeapSize +
-                ", minSmallHeapSize=" + minSmallHeapSize +
-                ", numRendererThreads=" + numRendererThreads +
-                ", maxUpdateTime=" + maxUpdateTime +
-                ", bitmapAlignment=" + bitmapAlignment +
-                '}';
     }
 }
 

@@ -1,0 +1,10 @@
+^C:\USERS\MAIN\IDEAPROJECTS\JAVA-UEF\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/main/IdeaProjects/java-uef -BC:/Users/main/IdeaProjects/java-uef/cbuild --check-stamp-file C:/Users/main/IdeaProjects/java-uef/cbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
