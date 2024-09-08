@@ -4,11 +4,31 @@
     <ClCompile Include="C:\Users\main\IdeaProjects\java-uef\native\UefApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\main\IdeaProjects\java-uef\native\UefKeyEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\main\IdeaProjects\java-uef\native\UefWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\main\IdeaProjects\java-uef\native\UefApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\main\IdeaProjects\java-uef\native\UefKeyEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\main\IdeaProjects\java-uef\native\UefWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\main\IdeaProjects\java-uef\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{7B0165DC-C823-3F1A-971D-5C5698F5D36D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{9CD29013-1A01-3304-B8D6-0DCEF295BD96}</UniqueIdentifier>
     </Filter>

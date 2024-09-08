@@ -17,30 +17,6 @@ JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_createApp
 
 /*
  * Class:     net_rk4z_juef_UefApp
- * Method:    createWindow
- * Signature: (IIZI)V
- */
-JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_createWindow
-  (JNIEnv *, jobject, jint, jint, jboolean, jint);
-
-/*
- * Class:     net_rk4z_juef_UefApp
- * Method:    setWindowTitle
- * Signature: (Ljava/lang/String;)V
- */
-JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_setWindowTitle
-  (JNIEnv *, jobject, jstring);
-
-/*
- * Class:     net_rk4z_juef_UefApp
- * Method:    closeWindow
- * Signature: ()V
- */
-JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_closeWindow
-  (JNIEnv *, jobject);
-
-/*
- * Class:     net_rk4z_juef_UefApp
  * Method:    run
  * Signature: ()V
  */

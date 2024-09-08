@@ -70,9 +70,13 @@ public class Uef {
                 downloadFile(libUrl, libPath);
             }
 
-            String url = "https://github.com/KT-Ruxy/java-uef/releases/download/icudt67l/icudt67l.dat";
+            String icudt67l = "https://github.com/KT-Ruxy/java-uef/releases/download/icudt67l/icudt67l.dat";
             Path path = Paths.get(uefDir, "assets/resources/icudt67l.dat");
-            downloadFile(url, path);
+            downloadFile(icudt67l, path);
+
+            String cacert = "https://github.com/KT-Ruxy/java-uef/releases/download/cacert/cacert.pem";
+            Path cacertPath = Paths.get(uefDir, "assets/resources/cacert.pem");
+            downloadFile(cacert, cacertPath);
 
             for (String lib : libraries) {
                 System.load(Paths.get(uefDir, lib + extension).toString());

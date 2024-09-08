@@ -330,6 +330,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\Users\main\IdeaProjects\java-uef\native\UefApp.cpp" />
+    <ClCompile Include="C:\Users\main\IdeaProjects\java-uef\native\UefKeyEvent.cpp" />
+    <ClCompile Include="C:\Users\main\IdeaProjects\java-uef\native\UefWindow.cpp" />
+    <ClInclude Include="C:\Users\main\IdeaProjects\java-uef\native\UefApp.h" />
+    <ClInclude Include="C:\Users\main\IdeaProjects\java-uef\native\UefKeyEvent.h" />
+    <ClInclude Include="C:\Users\main\IdeaProjects\java-uef\native\UefWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\main\IdeaProjects\java-uef\cbuild\ZERO_CHECK.vcxproj">
