@@ -1,4 +1,7 @@
 sdk
 .gradle
 .idea
+cbuild
+build
 cmake-build-debug
+src/test/*
