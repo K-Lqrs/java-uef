@@ -20,23 +20,35 @@ public class UefWindow implements AutoCloseable {
         setViewListener(getNativeWindowPtr(), listener);
     }
 
-    public void resizeOverlay() {
-        resizeOverlay(getNativeWindowPtr());
+    public void moveTo(int x, int y) {
+        moveTo(getNativeWindowPtr(), x, y);
     }
 
-//>---------------- Native methods ----------------<\\
+    public void show() {
+        show(getNativeWindowPtr());
+    }
+
+    public void hide() {
+        hide(getNativeWindowPtr());
+    }
+
+//>------------------- Native methods --------------------<\\
 
     private native long createWindow(String title, String url, int x, int y, int width, int height, int flags);
-
-    private native void resizeOverlay(long windowPtr);
 
     private native void setWindowListener(long windowPtr, UefWindowListener listener);
 
     private native void setViewListener(long windowPtr, UefViewListener listener);
 
+    private native void moveTo(long windowPtr, int x, int y);
+
+    private native void show(long windowPtr);
+
+    private native void hide(long windowPtr);
+
     private native void destroy(long windowPtr);
 
-//>---------------- Native methods ----------------<\\
+//>------------------- Native methods -------------------<\\
 
     /**
      * @deprecated This is a low-level API that exposes internal native pointers.

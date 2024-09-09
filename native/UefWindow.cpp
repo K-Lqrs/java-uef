@@ -5,399 +5,400 @@
 #include "UefApp.h"
 
 extern "C" {
-using namespace ultralight;
+    using namespace ultralight;
 
-    struct JavaListener {
-        jobject listener;
-        JNIEnv *env;
-    };
+    UefWindow::UefWindow(const char *title, const char *url, int x, int y, int width, int height, int flags)
+        : javaWindowListener_(nullptr), javaViewListener_(nullptr) {
+        window_ = Window::Create(app->main_monitor(), width, height, false, flags);
+        window_->MoveTo(x, y);
+        window_->SetTitle(title);
+        window_->Show();
+        window_->set_listener(this);
 
-    class UefWindow : public WindowListener, public ViewListener {
-        public:
-            RefPtr<Window> window_;
-            RefPtr<Overlay> overlay_;
-            JavaListener *javaWindowListener_;
-            JavaListener *javaViewListener_;
+        overlay_ = Overlay::Create(window_, window_->width(), window_->height(), 0, 0);
+        overlay_->view()->LoadURL(url);
+        overlay_->view()->set_view_listener(this);
+    }
 
-            UefWindow(const char *title, const char *url, int x, int y, int width, int height, int flags)
-                : javaWindowListener_(nullptr), javaViewListener_(nullptr) {
-                window_ = Window::Create(App::instance()->main_monitor(), width, height, false, flags);
-                window_->MoveTo(x, y);
-                window_->SetTitle(title);
-                window_->Show();
-                window_->set_listener(this);
+    UefWindow::~UefWindow() override {
+        if (javaWindowListener_ != nullptr) {
+            JNIEnv *env = javaWindowListener_->env;
+            env->DeleteGlobalRef(javaWindowListener_->listener);
+            delete javaWindowListener_;
+        }
 
-                overlay_ = Overlay::Create(window_, window_->width(), window_->height(), 0, 0);
-                overlay_->view()->LoadURL(url);
-                overlay_->view()->set_view_listener(this);
+        if (javaViewListener_ != nullptr) {
+            JNIEnv *env = javaViewListener_->env;
+            env->DeleteGlobalRef(javaViewListener_->listener);
+            delete javaViewListener_;
+        }
+    }
+
+    void UefWindow::moveTo(int x, int y) const {
+        window_->MoveTo(x, y);
+    }
+
+    void UefWindow::show() const {
+        window_->Show();
+    }
+
+    void UefWindow::hide() const {
+        window_->Hide();
+    }
+
+    void UefWindow::setJavaWindowListener(JavaListener *listener) {
+        if (javaWindowListener_ != nullptr) {
+            JNIEnv *env = javaWindowListener_->env;
+            env->DeleteGlobalRef(javaWindowListener_->listener);
+            delete javaWindowListener_;
+        }
+        javaWindowListener_ = listener;
+    }
+
+    void UefWindow::setJavaViewListener(JavaListener *listener) {
+        if (javaViewListener_ != nullptr) {
+            JNIEnv *env = javaViewListener_->env;
+            env->DeleteGlobalRef(javaViewListener_->listener);
+            delete javaViewListener_;
+        }
+        javaViewListener_ = listener;
+    }
+
+    void UefWindow::OnClose(Window *window) override {
+        if (javaWindowListener_ && javaWindowListener_->listener) {
+            JNIEnv *env = javaWindowListener_->env;
+            jclass listenerClass = env->GetObjectClass(javaWindowListener_->listener);
+            jmethodID onCloseMethod = env->GetMethodID(listenerClass, "onClose", "()V");
+            if (onCloseMethod) {
+                env->CallVoidMethod(javaWindowListener_->listener, onCloseMethod);
             }
+        }
+    }
 
-            ~UefWindow() override {
-                if (javaWindowListener_ != nullptr) {
-                    JNIEnv *env = javaWindowListener_->env;
-                    env->DeleteGlobalRef(javaWindowListener_->listener);
-                    delete javaWindowListener_;
+    void UefWindow::OnResize(Window *window, uint32_t width, uint32_t height) override {
+        if (javaWindowListener_ && javaWindowListener_->listener) {
+            JNIEnv *env = javaWindowListener_->env;
+            jclass listenerClass = env->GetObjectClass(javaWindowListener_->listener);
+            jmethodID onResizeMethod = env->GetMethodID(listenerClass, "onResize", "(II)V");
+            if (onResizeMethod) {
+                env->CallVoidMethod(javaWindowListener_->listener, onResizeMethod, width, height);
+            }
+        }
+    }
+
+    bool UefWindow::OnKeyEvent(const KeyEvent &evt) override {
+        if (javaWindowListener_ && javaWindowListener_->listener) {
+            JNIEnv *env = javaWindowListener_->env;
+
+            jclass listenerClass = env->GetObjectClass(javaWindowListener_->listener);
+
+            jmethodID onKeyEventMethod = env->GetMethodID(listenerClass, "onKeyEvent", "(Lnet/rk4z/juef/event/UefKeyEvent;)Z");
+
+            if (onKeyEventMethod) {
+                jclass keyEventClass = env->FindClass("net/rk4z/juef/event/UefKeyEvent");
+                jmethodID keyEventConstructor = env->GetMethodID(keyEventClass, "<init>", "(Lnet/rk4z/juef/event/UefKeyEvent$Type;IIZ)V");
+
+                jclass keyEventTypeClass = env->FindClass("net/rk4z/juef/event/UefKeyEvent$Type");
+                jfieldID typeFieldID;
+                switch (evt.type) {
+                    case KeyEvent::kType_KeyDown:
+                        typeFieldID = env->GetStaticFieldID(keyEventTypeClass, "KeyDown", "Lnet/rk4z/juef/event/UefKeyEvent$Type;");
+                        break;
+                    case KeyEvent::kType_KeyUp:
+                        typeFieldID = env->GetStaticFieldID(keyEventTypeClass, "KeyUp", "Lnet/rk4z/juef/event/UefKeyEvent$Type;");
+                        break;
+                    case KeyEvent::kType_RawKeyDown:
+                        typeFieldID = env->GetStaticFieldID(keyEventTypeClass, "RawKeyDown", "Lnet/rk4z/juef/event/UefKeyEvent$Type;");
+                        break;
+                    case KeyEvent::kType_Char:
+                        typeFieldID = env->GetStaticFieldID(keyEventTypeClass, "Char", "Lnet/rk4z/juef/event/UefKeyEvent$Type;");
+                        break;
+                    default:
+                        return false;
                 }
 
-                if (javaViewListener_ != nullptr) {
-                    JNIEnv *env = javaViewListener_->env;
-                    env->DeleteGlobalRef(javaViewListener_->listener);
-                    delete javaViewListener_;
+                jobject keyEventType = env->GetStaticObjectField(keyEventTypeClass, typeFieldID);
+
+                jobject keyEvent = env->NewObject(keyEventClass, keyEventConstructor, keyEventType, evt.virtual_key_code, evt.native_key_code, evt.is_system_key);
+
+                jboolean result = env->CallBooleanMethod(javaWindowListener_->listener, onKeyEventMethod, keyEvent);
+
+                env->DeleteLocalRef(keyEvent);
+                env->DeleteLocalRef(keyEventType);
+
+                return result == JNI_TRUE;
+            }
+        }
+        return false;
+    }
+
+    bool UefWindow::OnMouseEvent(const MouseEvent &evt) override {
+        if (javaWindowListener_ && javaWindowListener_->listener) {
+            JNIEnv *env = javaWindowListener_->env;
+
+            jclass listenerClass = env->GetObjectClass(javaWindowListener_->listener);
+
+            jmethodID onMouseEventMethod = env->GetMethodID(listenerClass, "onMouseEvent", "(Lnet/rk4z/juef/event/UefMouseEvent;)Z");
+            if (onMouseEventMethod) {
+                jclass mouseEventClass = env->FindClass("net/rk4z/juef/event/UefMouseEvent");
+                jmethodID mouseEventConstructor = env->GetMethodID(mouseEventClass, "<init>",
+                                                                   "(Lnet/rk4z/juef/event/UefMouseEvent$Type;IILnet/rk4z/juef/event/UefMouseEvent$Button;)V");
+
+                jclass mouseEventTypeClass = env->FindClass("net/rk4z/juef/event/UefMouseEvent$Type");
+                jfieldID typeFieldID;
+                switch (evt.type) {
+                    case MouseEvent::kType_MouseMoved:
+                        typeFieldID = env->GetStaticFieldID(mouseEventTypeClass, "MouseMoved", "Lnet/rk4z/juef/event/UefMouseEvent$Type;");
+                        break;
+                    case MouseEvent::kType_MouseDown:
+                        typeFieldID = env->GetStaticFieldID(mouseEventTypeClass, "MouseDown", "Lnet/rk4z/juef/event/UefMouseEvent$Type;");
+                        break;
+                    case MouseEvent::kType_MouseUp:
+                        typeFieldID = env->GetStaticFieldID(mouseEventTypeClass, "MouseUp", "Lnet/rk4z/juef/event/UefMouseEvent$Type;");
+                        break;
+                    default:
+                        return false;
                 }
-            }
+                jobject mouseEventType = env->GetStaticObjectField(mouseEventTypeClass, typeFieldID);
 
-            void setJavaWindowListener(JavaListener *listener) {
-                if (javaWindowListener_ != nullptr) {
-                    JNIEnv *env = javaWindowListener_->env;
-                    env->DeleteGlobalRef(javaWindowListener_->listener);
-                    delete javaWindowListener_;
+                jclass mouseButtonClass = env->FindClass("net/rk4z/juef/event/UefMouseEvent$Button");
+                jfieldID buttonFieldID;
+                switch (evt.button) {
+                    case MouseEvent::kButton_Left:
+                        buttonFieldID = env->GetStaticFieldID(mouseButtonClass, "Left", "Lnet/rk4z/juef/event/UefMouseEvent$Button;");
+                        break;
+                    case MouseEvent::kButton_Middle:
+                        buttonFieldID = env->GetStaticFieldID(mouseButtonClass, "Middle", "Lnet/rk4z/juef/event/UefMouseEvent$Button;");
+                        break;
+                    case MouseEvent::kButton_Right:
+                        buttonFieldID = env->GetStaticFieldID(mouseButtonClass, "Right", "Lnet/rk4z/juef/event/UefMouseEvent$Button;");
+                        break;
+                    default:
+                        buttonFieldID = env->GetStaticFieldID(mouseButtonClass, "None", "Lnet/rk4z/juef/event/UefMouseEvent$Button;");
+                        break;
                 }
-                javaWindowListener_ = listener;
-            }
+                jobject mouseButton = env->GetStaticObjectField(mouseButtonClass, buttonFieldID);
 
-            void setJavaViewListener(JavaListener *listener) {
-                if (javaViewListener_ != nullptr) {
-                    JNIEnv *env = javaViewListener_->env;
-                    env->DeleteGlobalRef(javaViewListener_->listener);
-                    delete javaViewListener_;
+                jobject mouseEvent = env->NewObject(mouseEventClass, mouseEventConstructor, mouseEventType, evt.x, evt.y, mouseButton);
+
+                jboolean result = env->CallBooleanMethod(javaWindowListener_->listener, onMouseEventMethod, mouseEvent);
+
+                env->DeleteLocalRef(mouseEvent);
+                env->DeleteLocalRef(mouseEventType);
+                env->DeleteLocalRef(mouseButton);
+
+                return result == JNI_TRUE;
+            }
+        }
+        return false;
+    }
+
+    bool UefWindow::OnScrollEvent(const ScrollEvent &evt) override {
+        if (javaWindowListener_ && javaWindowListener_->listener) {
+            JNIEnv *env = javaWindowListener_->env;
+
+            jclass listenerClass = env->GetObjectClass(javaWindowListener_->listener);
+
+            jmethodID onScrollEventMethod = env->GetMethodID(listenerClass, "onScrollEvent", "(Lnet/rk4z/juef/event/UefScrollEvent;)Z");
+            if (onScrollEventMethod) {
+                jclass scrollEventClass = env->FindClass("net/rk4z/juef/event/UefScrollEvent");
+                jmethodID scrollEventConstructor = env->GetMethodID(scrollEventClass, "<init>", "(Lnet/rk4z/juef/event/UefScrollEvent$Type;II)V");
+
+                jclass scrollEventTypeClass = env->FindClass("net/rk4z/juef/event/UefScrollEvent$Type");
+                jfieldID typeFieldID;
+                switch (evt.type) {
+                    case ScrollEvent::kType_ScrollByPixel:
+                        typeFieldID = env->GetStaticFieldID(scrollEventTypeClass, "ScrollByPixel", "Lnet/rk4z/juef/event/UefScrollEvent$Type;");
+                        break;
+                    case ScrollEvent::kType_ScrollByPage:
+                        typeFieldID = env->GetStaticFieldID(scrollEventTypeClass, "ScrollByPage", "Lnet/rk4z/juef/event/UefScrollEvent$Type;");
+                        break;
+                    default:
+                        return false;
                 }
-                javaViewListener_ = listener;
+                jobject scrollEventType = env->GetStaticObjectField(scrollEventTypeClass, typeFieldID);
+
+                jobject scrollEvent = env->NewObject(scrollEventClass, scrollEventConstructor, scrollEventType, evt.delta_x, evt.delta_y);
+
+                jboolean result = env->CallBooleanMethod(javaWindowListener_->listener, onScrollEventMethod, scrollEvent);
+
+                env->DeleteLocalRef(scrollEvent);
+                env->DeleteLocalRef(scrollEventType);
+
+                return result == JNI_TRUE;
             }
+        }
+        return false;
+    }
 
-            void OnClose(Window *window) override {
-                if (javaWindowListener_ && javaWindowListener_->listener) {
-                    JNIEnv *env = javaWindowListener_->env;
-                    jclass listenerClass = env->GetObjectClass(javaWindowListener_->listener);
-                    jmethodID onCloseMethod = env->GetMethodID(listenerClass, "onClose", "()V");
-                    if (onCloseMethod) {
-                        env->CallVoidMethod(javaWindowListener_->listener, onCloseMethod);
-                    }
-                }
+    void UefWindow::OnChangeCursor(View *caller, Cursor cursor) override {
+        window_->SetCursor(cursor);
+        if (javaViewListener_ && javaViewListener_->listener) {
+            JNIEnv *env = javaViewListener_->env;
+
+            jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
+            jmethodID onChangeCursorMethod = env->GetMethodID(listenerClass, "onChangeCursor", "(JLnet/rk4z/juef/event/UefCursor;)V");
+
+            if (onChangeCursorMethod) {
+                jclass uefCursorClass = env->FindClass("net/rk4z/juef/event/UefCursor");
+                jmethodID fromValueMethod = env->GetStaticMethodID(uefCursorClass, "fromValue", "(I)Lnet/rk4z/juef/event/UefCursor;");
+                jobject uefCursor = env->CallStaticObjectMethod(uefCursorClass, fromValueMethod, static_cast<int>(cursor));
+
+                env->CallVoidMethod(javaViewListener_->listener, onChangeCursorMethod, reinterpret_cast<jlong>(caller), uefCursor);
+
+                env->DeleteLocalRef(uefCursor);
             }
+        }
+    }
 
-            void OnResize(Window *window, uint32_t width, uint32_t height) override {
-                if (javaWindowListener_ && javaWindowListener_->listener) {
-                    JNIEnv *env = javaWindowListener_->env;
-                    jclass listenerClass = env->GetObjectClass(javaWindowListener_->listener);
-                    jmethodID onResizeMethod = env->GetMethodID(listenerClass, "onResize", "(II)V");
-                    if (onResizeMethod) {
-                        env->CallVoidMethod(javaWindowListener_->listener, onResizeMethod, width, height);
-                    }
-                }
+    void UefWindow::OnChangeTitle(View *caller, const String &title) override {
+        if (javaViewListener_ && javaViewListener_->listener) {
+            JNIEnv *env = javaViewListener_->env;
+
+            jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
+
+            jmethodID onChangeTitleMethod = env->GetMethodID(listenerClass, "onChangeTitle", "(JLjava/lang/String;)V");
+
+            if (onChangeTitleMethod) {
+                jstring jTitle = env->NewStringUTF(title.utf8().data());
+
+                env->CallVoidMethod(javaViewListener_->listener, onChangeTitleMethod, reinterpret_cast<jlong>(caller), jTitle);
+
+                env->DeleteLocalRef(jTitle);
             }
+        }
+    }
 
-            bool OnKeyEvent(const KeyEvent &evt) override {
-                if (javaWindowListener_ && javaWindowListener_->listener) {
-                    JNIEnv *env = javaWindowListener_->env;
+    void UefWindow::OnChangeTooltip(View *caller, const String &tooltip) override {
+        if (javaViewListener_ && javaViewListener_->listener) {
+            JNIEnv *env = javaViewListener_->env;
 
-                    jclass listenerClass = env->GetObjectClass(javaWindowListener_->listener);
+            jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
 
-                    jmethodID onKeyEventMethod = env->GetMethodID(listenerClass, "onKeyEvent", "(Lnet/rk4z/juef/event/UefKeyEvent;)Z");
+            jmethodID onChangeTooltipMethod = env->GetMethodID(listenerClass, "onChangeTooltip", "(JLjava/lang/String;)V");
 
-                    if (onKeyEventMethod) {
-                        jclass keyEventClass = env->FindClass("net/rk4z/juef/event/UefKeyEvent");
-                        jmethodID keyEventConstructor = env->GetMethodID(keyEventClass, "<init>", "(Lnet/rk4z/juef/event/UefKeyEvent$Type;IIZ)V");
+            if (onChangeTooltipMethod) {
+                jstring jTooltip = env->NewStringUTF(tooltip.utf8().data());
 
-                        jclass keyEventTypeClass = env->FindClass("net/rk4z/juef/event/UefKeyEvent$Type");
-                        jfieldID typeFieldID;
-                        switch (evt.type) {
-                            case KeyEvent::kType_KeyDown:
-                                typeFieldID = env->GetStaticFieldID(keyEventTypeClass, "KeyDown", "Lnet/rk4z/juef/event/UefKeyEvent$Type;");
-                                break;
-                            case KeyEvent::kType_KeyUp:
-                                typeFieldID = env->GetStaticFieldID(keyEventTypeClass, "KeyUp", "Lnet/rk4z/juef/event/UefKeyEvent$Type;");
-                                break;
-                            case KeyEvent::kType_RawKeyDown:
-                                typeFieldID = env->GetStaticFieldID(keyEventTypeClass, "RawKeyDown", "Lnet/rk4z/juef/event/UefKeyEvent$Type;");
-                                break;
-                            case KeyEvent::kType_Char:
-                                typeFieldID = env->GetStaticFieldID(keyEventTypeClass, "Char", "Lnet/rk4z/juef/event/UefKeyEvent$Type;");
-                                break;
-                            default:
-                                return false;
-                        }
+                env->CallVoidMethod(javaViewListener_->listener, onChangeTooltipMethod, reinterpret_cast<jlong>(caller), jTooltip);
 
-                        jobject keyEventType = env->GetStaticObjectField(keyEventTypeClass, typeFieldID);
-
-                        jobject keyEvent = env->NewObject(keyEventClass, keyEventConstructor, keyEventType, evt.virtual_key_code, evt.native_key_code, evt.is_system_key);
-
-                        jboolean result = env->CallBooleanMethod(javaWindowListener_->listener, onKeyEventMethod, keyEvent);
-
-                        env->DeleteLocalRef(keyEvent);
-                        env->DeleteLocalRef(keyEventType);
-
-                        return result == JNI_TRUE;
-                    }
-                }
-                return false;
+                env->DeleteLocalRef(jTooltip);
             }
+        }
+    }
 
-            bool OnMouseEvent(const MouseEvent &evt) override {
-                if (javaWindowListener_ && javaWindowListener_->listener) {
-                    JNIEnv *env = javaWindowListener_->env;
+    void UefWindow::OnRequestClose(View *caller) override {
+        if (javaViewListener_ && javaViewListener_->listener) {
+            JNIEnv *env = javaViewListener_->env;
 
-                    jclass listenerClass = env->GetObjectClass(javaWindowListener_->listener);
+            jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
+            jmethodID onRequestCloseMethod = env->GetMethodID(listenerClass, "onRequestClose", "(J)V");
 
-                    jmethodID onMouseEventMethod = env->GetMethodID(listenerClass, "onMouseEvent", "(Lnet/rk4z/juef/event/UefMouseEvent;)Z");
-                    if (onMouseEventMethod) {
-                        jclass mouseEventClass = env->FindClass("net/rk4z/juef/event/UefMouseEvent");
-                        jmethodID mouseEventConstructor = env->GetMethodID(mouseEventClass, "<init>", "(Lnet/rk4z/juef/event/UefMouseEvent$Type;IILnet/rk4z/juef/event/UefMouseEvent$Button;)V");
-
-                        jclass mouseEventTypeClass = env->FindClass("net/rk4z/juef/event/UefMouseEvent$Type");
-                        jfieldID typeFieldID;
-                        switch (evt.type) {
-                            case MouseEvent::kType_MouseMoved:
-                                typeFieldID = env->GetStaticFieldID(mouseEventTypeClass, "MouseMoved", "Lnet/rk4z/juef/event/UefMouseEvent$Type;");
-                                break;
-                            case MouseEvent::kType_MouseDown:
-                                typeFieldID = env->GetStaticFieldID(mouseEventTypeClass, "MouseDown", "Lnet/rk4z/juef/event/UefMouseEvent$Type;");
-                                break;
-                            case MouseEvent::kType_MouseUp:
-                                typeFieldID = env->GetStaticFieldID(mouseEventTypeClass, "MouseUp", "Lnet/rk4z/juef/event/UefMouseEvent$Type;");
-                                break;
-                            default:
-                                return false;
-                        }
-                        jobject mouseEventType = env->GetStaticObjectField(mouseEventTypeClass, typeFieldID);
-
-                        jclass mouseButtonClass = env->FindClass("net/rk4z/juef/event/UefMouseEvent$Button");
-                        jfieldID buttonFieldID;
-                        switch (evt.button) {
-                            case MouseEvent::kButton_Left:
-                                buttonFieldID = env->GetStaticFieldID(mouseButtonClass, "Left", "Lnet/rk4z/juef/event/UefMouseEvent$Button;");
-                                break;
-                            case MouseEvent::kButton_Middle:
-                                buttonFieldID = env->GetStaticFieldID(mouseButtonClass, "Middle", "Lnet/rk4z/juef/event/UefMouseEvent$Button;");
-                                break;
-                            case MouseEvent::kButton_Right:
-                                buttonFieldID = env->GetStaticFieldID(mouseButtonClass, "Right", "Lnet/rk4z/juef/event/UefMouseEvent$Button;");
-                                break;
-                            default:
-                                buttonFieldID = env->GetStaticFieldID(mouseButtonClass, "None", "Lnet/rk4z/juef/event/UefMouseEvent$Button;");
-                                break;
-                        }
-                        jobject mouseButton = env->GetStaticObjectField(mouseButtonClass, buttonFieldID);
-
-                        jobject mouseEvent = env->NewObject(mouseEventClass, mouseEventConstructor, mouseEventType, evt.x, evt.y, mouseButton);
-
-                        jboolean result = env->CallBooleanMethod(javaWindowListener_->listener, onMouseEventMethod, mouseEvent);
-
-                        env->DeleteLocalRef(mouseEvent);
-                        env->DeleteLocalRef(mouseEventType);
-                        env->DeleteLocalRef(mouseButton);
-
-                        return result == JNI_TRUE;
-                    }
-                }
-                return false;
+            if (onRequestCloseMethod) {
+                env->CallVoidMethod(javaViewListener_->listener, onRequestCloseMethod, reinterpret_cast<jlong>(caller));
             }
+        }
+    }
 
-            bool OnScrollEvent(const ScrollEvent &evt) override {
-                if (javaWindowListener_ && javaWindowListener_->listener) {
-                    JNIEnv *env = javaWindowListener_->env;
+    void UefWindow::OnAddConsoleMessage(View *caller, MessageSource source, MessageLevel level, const String &message, uint32_t line_number, uint32_t column_number,
+                                        const String &source_id) override {
+        if (javaViewListener_ && javaViewListener_->listener) {
+            JNIEnv *env = javaViewListener_->env;
 
-                    jclass listenerClass = env->GetObjectClass(javaWindowListener_->listener);
+            jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
+            jmethodID onAddConsoleMessageMethod = env->GetMethodID(listenerClass, "onAddConsoleMessage",
+                                                                   "(JLnet/rk4z/juef/event/UefMessageSource;Lnet/rk4z/juef/event/UefMessageLevel;Ljava/lang/String;IILjava/lang/String;)V");
 
-                    jmethodID onScrollEventMethod = env->GetMethodID(listenerClass, "onScrollEvent", "(Lnet/rk4z/juef/event/UefScrollEvent;)Z");
-                    if (onScrollEventMethod) {
-                        jclass scrollEventClass = env->FindClass("net/rk4z/juef/event/UefScrollEvent");
-                        jmethodID scrollEventConstructor = env->GetMethodID(scrollEventClass, "<init>", "(Lnet/rk4z/juef/event/UefScrollEvent$Type;II)V");
+            if (onAddConsoleMessageMethod) {
+                jclass sourceClass = env->FindClass("net/rk4z/juef/event/UefMessageSource");
+                jmethodID fromValueSourceMethod = env->GetStaticMethodID(sourceClass, "fromValue", "(I)Lnet/rk4z/juef/event/UefMessageSource;");
+                jobject uefSource = env->CallStaticObjectMethod(sourceClass, fromValueSourceMethod, static_cast<int>(source));
 
-                        jclass scrollEventTypeClass = env->FindClass("net/rk4z/juef/event/UefScrollEvent$Type");
-                        jfieldID typeFieldID;
-                        switch (evt.type) {
-                            case ScrollEvent::kType_ScrollByPixel:
-                                typeFieldID = env->GetStaticFieldID(scrollEventTypeClass, "ScrollByPixel", "Lnet/rk4z/juef/event/UefScrollEvent$Type;");
-                                break;
-                            case ScrollEvent::kType_ScrollByPage:
-                                typeFieldID = env->GetStaticFieldID(scrollEventTypeClass, "ScrollByPage", "Lnet/rk4z/juef/event/UefScrollEvent$Type;");
-                                break;
-                            default:
-                                return false;
-                        }
-                        jobject scrollEventType = env->GetStaticObjectField(scrollEventTypeClass, typeFieldID);
+                jclass levelClass = env->FindClass("net/rk4z/juef/event/UefMessageLevel");
+                jmethodID fromValueLevelMethod = env->GetStaticMethodID(levelClass, "fromValue", "(I)Lnet/rk4z/juef/event/UefMessageLevel;");
+                jobject uefLevel = env->CallStaticObjectMethod(levelClass, fromValueLevelMethod, static_cast<int>(level));
 
-                        jobject scrollEvent = env->NewObject(scrollEventClass, scrollEventConstructor, scrollEventType, evt.delta_x, evt.delta_y);
+                jstring jMessage = env->NewStringUTF(message.utf8().data());
+                jstring jSourceId = env->NewStringUTF(source_id.utf8().data());
 
-                        jboolean result = env->CallBooleanMethod(javaWindowListener_->listener, onScrollEventMethod, scrollEvent);
+                env->CallVoidMethod(javaViewListener_->listener, onAddConsoleMessageMethod, reinterpret_cast<jlong>(caller), uefSource, uefLevel, jMessage,
+                                    line_number, column_number, jSourceId);
 
-                        env->DeleteLocalRef(scrollEvent);
-                        env->DeleteLocalRef(scrollEventType);
-
-                        return result == JNI_TRUE;
-                    }
-                }
-                return false;
+                env->DeleteLocalRef(uefSource);
+                env->DeleteLocalRef(uefLevel);
+                env->DeleteLocalRef(jMessage);
+                env->DeleteLocalRef(jSourceId);
             }
+        }
+    }
 
-            void OnChangeCursor(View *caller, Cursor cursor) override {
-                window_->SetCursor(cursor);
-                if (javaViewListener_ && javaViewListener_->listener) {
-                    JNIEnv *env = javaViewListener_->env;
+    void UefWindow::OnChangeURL(View *caller, const String &url) override {
+        if (javaViewListener_ && javaViewListener_->listener) {
+            JNIEnv *env = javaViewListener_->env;
 
-                    jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
-                    jmethodID onChangeCursorMethod = env->GetMethodID(listenerClass, "onChangeCursor", "(JLnet/rk4z/juef/event/UefCursor;)V");
+            jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
+            jmethodID onChangeURLMethod = env->GetMethodID(listenerClass, "onChangeURL", "(JLjava/lang/String;)V");
 
-                    if (onChangeCursorMethod) {
-                        jclass uefCursorClass = env->FindClass("net/rk4z/juef/event/UefCursor");
-                        jmethodID fromValueMethod = env->GetStaticMethodID(uefCursorClass, "fromValue", "(I)Lnet/rk4z/juef/event/UefCursor;");
-                        jobject uefCursor = env->CallStaticObjectMethod(uefCursorClass, fromValueMethod, static_cast<int>(cursor));
-
-                        env->CallVoidMethod(javaViewListener_->listener, onChangeCursorMethod, reinterpret_cast<jlong>(caller), uefCursor);
-
-                        env->DeleteLocalRef(uefCursor);
-                    }
-                }
+            if (onChangeURLMethod) {
+                jstring jURL = env->NewStringUTF(url.utf8().data());
+                env->CallVoidMethod(javaViewListener_->listener, onChangeURLMethod, reinterpret_cast<jlong>(caller), jURL);
+                env->DeleteLocalRef(jURL);
             }
+        }
+    }
 
-            void OnChangeTitle(View *caller, const String &title) override {
-                if (javaViewListener_ && javaViewListener_->listener) {
-                    JNIEnv *env = javaViewListener_->env;
+    RefPtr<View> UefWindow::OnCreateChildView(View *caller, const String &opener_url, const String &target_url, bool is_popup, const IntRect &popup_rect) override {
+        if (javaViewListener_ && javaViewListener_->listener) {
+            JNIEnv *env = javaViewListener_->env;
 
-                    jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
+            jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
+            jmethodID onCreateChildViewMethod = env->GetMethodID(listenerClass, "onCreateChildView",
+                                                                 "(JLjava/lang/String;Ljava/lang/String;ZLnet/rk4z/juef/util/IntRect;)J");
 
-                    jmethodID onChangeTitleMethod = env->GetMethodID(listenerClass, "onChangeTitle", "(JLjava/lang/String;)V");
+            if (onCreateChildViewMethod) {
+                jstring jOpenerURL = env->NewStringUTF(opener_url.utf8().data());
+                jstring jTargetURL = env->NewStringUTF(target_url.utf8().data());
 
-                    if (onChangeTitleMethod) {
-                        jstring jTitle = env->NewStringUTF(title.utf8().data());
+                jclass intRectClass = env->FindClass("net/rk4z/juef/util/IntRect");
+                jmethodID intRectConstructor = env->GetMethodID(intRectClass, "<init>", "(IIII)V");
+                jobject jPopupRect = env->NewObject(intRectClass, intRectConstructor, popup_rect.left, popup_rect.top, popup_rect.right, popup_rect.bottom);
 
-                        env->CallVoidMethod(javaViewListener_->listener, onChangeTitleMethod, reinterpret_cast<jlong>(caller), jTitle);
+                jlong newViewPtr = env->CallLongMethod(javaViewListener_->listener, onCreateChildViewMethod, reinterpret_cast<jlong>(caller), jOpenerURL,
+                                                       jTargetURL,
+                                                       static_cast<jboolean>(is_popup), jPopupRect);
 
-                        env->DeleteLocalRef(jTitle);
-                    }
-                }
+                env->DeleteLocalRef(jOpenerURL);
+                env->DeleteLocalRef(jTargetURL);
+                env->DeleteLocalRef(jPopupRect);
+
+                return reinterpret_cast<View *>(newViewPtr);
             }
+        }
+        return nullptr;
+    }
 
-            void OnChangeTooltip(View *caller, const String &tooltip) override {
-                if (javaViewListener_ && javaViewListener_->listener) {
-                    JNIEnv *env = javaViewListener_->env;
+    RefPtr<View> UefWindow::OnCreateInspectorView(View *caller, bool is_local, const String &inspected_url) override {
+        if (javaViewListener_ && javaViewListener_->listener) {
+            JNIEnv *env = javaViewListener_->env;
 
-                    jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
+            jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
+            jmethodID onCreateInspectorViewMethod = env->GetMethodID(listenerClass, "onCreateInspectorView", "(JZLjava/lang/String;)J");
 
-                    jmethodID onChangeTooltipMethod = env->GetMethodID(listenerClass, "onChangeTooltip", "(JLjava/lang/String;)V");
+            if (onCreateInspectorViewMethod) {
+                jstring jInspectedURL = env->NewStringUTF(inspected_url.utf8().data());
 
-                    if (onChangeTooltipMethod) {
-                        jstring jTooltip = env->NewStringUTF(tooltip.utf8().data());
+                jlong newViewPtr = env->CallLongMethod(javaViewListener_->listener, onCreateInspectorViewMethod, reinterpret_cast<jlong>(caller),
+                                                       static_cast<jboolean>(is_local), jInspectedURL);
 
-                        env->CallVoidMethod(javaViewListener_->listener, onChangeTooltipMethod, reinterpret_cast<jlong>(caller), jTooltip);
-
-                        env->DeleteLocalRef(jTooltip);
-                    }
-                }
+                env->DeleteLocalRef(jInspectedURL);
+                return reinterpret_cast<View *>(newViewPtr);
             }
-
-            void OnRequestClose(View *caller) override {
-                if (javaViewListener_ && javaViewListener_->listener) {
-                    JNIEnv *env = javaViewListener_->env;
-
-                    jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
-                    jmethodID onRequestCloseMethod = env->GetMethodID(listenerClass, "onRequestClose", "(J)V");
-
-                    if (onRequestCloseMethod) {
-                        env->CallVoidMethod(javaViewListener_->listener, onRequestCloseMethod, reinterpret_cast<jlong>(caller));
-                    }
-                }
-            }
-
-            void OnAddConsoleMessage(View *caller, MessageSource source, MessageLevel level, const String &message, uint32_t line_number, uint32_t column_number,
-                const String &source_id) override {
-                    if (javaViewListener_ && javaViewListener_->listener) {
-                        JNIEnv *env = javaViewListener_->env;
-
-                        jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
-                        jmethodID onAddConsoleMessageMethod = env->GetMethodID(listenerClass, "onAddConsoleMessage",
-                            "(JLnet/rk4z/juef/event/UefMessageSource;Lnet/rk4z/juef/event/UefMessageLevel;Ljava/lang/String;IILjava/lang/String;)V");
-
-                        if (onAddConsoleMessageMethod) {
-                            jclass sourceClass = env->FindClass("net/rk4z/juef/event/UefMessageSource");
-                            jmethodID fromValueSourceMethod = env->GetStaticMethodID(sourceClass, "fromValue", "(I)Lnet/rk4z/juef/event/UefMessageSource;");
-                            jobject uefSource = env->CallStaticObjectMethod(sourceClass, fromValueSourceMethod, static_cast<int>(source));
-
-                            jclass levelClass = env->FindClass("net/rk4z/juef/event/UefMessageLevel");
-                            jmethodID fromValueLevelMethod = env->GetStaticMethodID(levelClass, "fromValue", "(I)Lnet/rk4z/juef/event/UefMessageLevel;");
-                            jobject uefLevel = env->CallStaticObjectMethod(levelClass, fromValueLevelMethod, static_cast<int>(level));
-
-                            jstring jMessage = env->NewStringUTF(message.utf8().data());
-                            jstring jSourceId = env->NewStringUTF(source_id.utf8().data());
-
-                            env->CallVoidMethod(javaViewListener_->listener, onAddConsoleMessageMethod, reinterpret_cast<jlong>(caller), uefSource, uefLevel, jMessage,
-                                                line_number, column_number, jSourceId);
-
-                            env->DeleteLocalRef(uefSource);
-                            env->DeleteLocalRef(uefLevel);
-                            env->DeleteLocalRef(jMessage);
-                            env->DeleteLocalRef(jSourceId);
-                        }
-                    }
-            }
-
-            void OnChangeURL(View *caller, const String &url) override {
-                if (javaViewListener_ && javaViewListener_->listener) {
-                    JNIEnv *env = javaViewListener_->env;
-
-                    jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
-                    jmethodID onChangeURLMethod = env->GetMethodID(listenerClass, "onChangeURL", "(JLjava/lang/String;)V");
-
-                    if (onChangeURLMethod) {
-                        jstring jURL = env->NewStringUTF(url.utf8().data());
-                        env->CallVoidMethod(javaViewListener_->listener, onChangeURLMethod, reinterpret_cast<jlong>(caller), jURL);
-                        env->DeleteLocalRef(jURL);
-                    }
-                }
-            }
-
-            RefPtr<View> OnCreateChildView(View *caller, const String &opener_url, const String &target_url, bool is_popup, const IntRect &popup_rect) override {
-                if (javaViewListener_ && javaViewListener_->listener) {
-                    JNIEnv *env = javaViewListener_->env;
-
-                    jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
-                    jmethodID onCreateChildViewMethod = env->GetMethodID(listenerClass, "onCreateChildView",
-                        "(JLjava/lang/String;Ljava/lang/String;ZLnet/rk4z/juef/util/IntRect;)J");
-
-                    if (onCreateChildViewMethod) {
-                        jstring jOpenerURL = env->NewStringUTF(opener_url.utf8().data());
-                        jstring jTargetURL = env->NewStringUTF(target_url.utf8().data());
-
-                        jclass intRectClass = env->FindClass("net/rk4z/juef/util/IntRect");
-                        jmethodID intRectConstructor = env->GetMethodID(intRectClass, "<init>", "(IIII)V");
-                        jobject jPopupRect = env->NewObject(intRectClass, intRectConstructor, popup_rect.left, popup_rect.top, popup_rect.right, popup_rect.bottom);
-
-                        jlong newViewPtr = env->CallLongMethod(javaViewListener_->listener, onCreateChildViewMethod, reinterpret_cast<jlong>(caller), jOpenerURL, jTargetURL,
-                                                               static_cast<jboolean>(is_popup), jPopupRect);
-
-                        env->DeleteLocalRef(jOpenerURL);
-                        env->DeleteLocalRef(jTargetURL);
-                        env->DeleteLocalRef(jPopupRect);
-
-                        return reinterpret_cast<View*>(newViewPtr);
-                    }
-                }
-                return nullptr;
-            }
-
-            RefPtr<View> OnCreateInspectorView(View *caller, bool is_local, const String &inspected_url) override {
-                if (javaViewListener_ && javaViewListener_->listener) {
-                    JNIEnv *env = javaViewListener_->env;
-
-                    jclass listenerClass = env->GetObjectClass(javaViewListener_->listener);
-                    jmethodID onCreateInspectorViewMethod = env->GetMethodID(listenerClass, "onCreateInspectorView", "(JZLjava/lang/String;)J");
-
-                    if (onCreateInspectorViewMethod) {
-                        jstring jInspectedURL = env->NewStringUTF(inspected_url.utf8().data());
-
-                        jlong newViewPtr = env->CallLongMethod(javaViewListener_->listener, onCreateInspectorViewMethod, reinterpret_cast<jlong>(caller),
-                                                               static_cast<jboolean>(is_local), jInspectedURL);
-
-                        env->DeleteLocalRef(jInspectedURL);
-                        return reinterpret_cast<View*>(newViewPtr);
-                    }
-                }
-                return nullptr;
-            }
-    };
+        }
+        return nullptr;
+    }
 
     JNIEXPORT jlong JNICALL Java_net_rk4z_juef_UefWindow_createWindow(JNIEnv *env, jobject obj, jstring title, jstring url, jint x, jint y, jint width, jint
-        height, jint flags) {
+                                                                      height, jint flags) {
         const char *c_title = env->GetStringUTFChars(title, nullptr);
         const char *c_url = env->GetStringUTFChars(url, nullptr);
 
@@ -429,13 +430,23 @@ using namespace ultralight;
         window->setJavaViewListener(javaListener);
     }
 
-    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_resizeOverlay(JNIEnv *env, jobject obj, jlong window_ptr) {
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_show(JNIEnv *env, jobject obj, jlong window_ptr) {
         auto *window = reinterpret_cast<UefWindow *>(window_ptr);
-        window->overlay_->Resize(window->window_->width(), window->window_->height());
+        window->show();
+    }
+
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_hide(JNIEnv *env, jobject obj, jlong window_ptr) {
+        auto *window = reinterpret_cast<UefWindow *>(window_ptr);
+        window->hide();
     }
 
     JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_destroy(JNIEnv *env, jobject obj, jlong window_ptr) {
         auto *window = reinterpret_cast<UefWindow *>(window_ptr);
         delete window;
+    }
+
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_moveTo(JNIEnv *env, jobject obj, jlong window_ptr, jint x, jint y) {
+        auto *window = reinterpret_cast<UefWindow *>(window_ptr);
+        window->moveTo(x, y);
     }
 }

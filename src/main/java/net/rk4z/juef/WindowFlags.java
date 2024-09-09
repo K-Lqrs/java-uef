@@ -24,7 +24,7 @@ public enum WindowFlags {
     public static int combine(@NotNull WindowFlags... flags) {
         int combinedValue = 0;
         for (WindowFlags flag : flags) {
-            combinedValue |= flag.getValue();  // ビットORを使ってフラグを組み合わせる
+            combinedValue |= flag.getValue();
         }
         return combinedValue;
     }

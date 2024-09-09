@@ -29,7 +29,7 @@ public class Main {
                 @Override
                 public void onResize(int width, int height) {
                     System.out.println("Window resized: " + width + "x" + height);
-                    window.resizeOverlay();
+
                 }
 
                 @Override

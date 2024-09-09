@@ -8,6 +8,8 @@ public class UefApp {
     public static Logger logger = LoggerFactory.getLogger(UefApp.class.getSimpleName());
     public static UefHelper helper = new UefHelper();
 
+//>------------------- Native methods --------------------<\\
+
     public native void createApp(UefConfig config, UefSettings settings);
 
     public native void run();
@@ -15,6 +17,8 @@ public class UefApp {
     public native void stop();
 
     public native void destroy();
+
+//>------------------- Native methods --------------------<\\
 
     public UefHelper getHelper() {
         return helper;
