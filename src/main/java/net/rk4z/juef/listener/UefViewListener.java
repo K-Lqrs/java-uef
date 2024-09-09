@@ -6,7 +6,6 @@ import net.rk4z.juef.event.UefMessageSource;
 import net.rk4z.juef.util.IntRect;
 
 public interface UefViewListener {
-
     void onChangeTitle(long viewPtr, String title);
 
     void onChangeURL(long viewPtr, String url);

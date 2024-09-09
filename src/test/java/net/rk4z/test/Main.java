@@ -15,7 +15,7 @@ public class Main {
 
         app.createApp(new UefConfig(), new UefSettings());
 
-        int flags = WindowFlags.combine(WindowFlags.Titled, WindowFlags.Resizable, WindowFlags.Maximizable);
+        int flags = WindowFlags.combine(WindowFlags.Titled, WindowFlags.Resizable, WindowFlags.Maximizable, WindowFlags.Borderless);
 
         try (UefWindow window = new UefWindow("Hello World", "https://google.com", 50, 50, 800, 600, flags)) {
             window.setWindowListener(new UefWindowListener() {
@@ -54,12 +54,12 @@ public class Main {
             window.setViewListener(new UefViewListener() {
                 @Override
                 public void onChangeTitle(long viewPtr, String title) {
-
+                    System.out.println("Title changed: " + title);
                 }
 
                 @Override
                 public void onChangeURL(long viewPtr, String url) {
-
+                    System.out.println("URL changed: " + url);
                 }
 
                 @Override
@@ -74,7 +74,7 @@ public class Main {
 
                 @Override
                 public void onAddConsoleMessage(long viewPtr, UefMessageSource source, UefMessageLevel level, String message, int lineNumber, int columnNumber, String sourceId) {
-
+                    System.out.println("Console message: " + source + ", " + level + ", " + message + ", " + lineNumber + ", " + columnNumber + ", " + sourceId);
                 }
 
                 @Override
@@ -89,7 +89,7 @@ public class Main {
 
                 @Override
                 public void onRequestClose(long viewPtr) {
-
+                    System.out.println("Request close");
                 }
             });
 

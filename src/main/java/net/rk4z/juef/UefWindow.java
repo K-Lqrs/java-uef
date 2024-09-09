@@ -12,8 +12,6 @@ public class UefWindow implements AutoCloseable {
         nativeWindowPtr = createWindow(title, url, x, y, width, height, flags);
     }
 
-    private native long createWindow(String title, String url, int x, int y, int width, int height, int flags);
-
     public void setWindowListener(UefWindowListener listener) {
         setWindowListener(getNativeWindowPtr(), listener);
     }
@@ -22,14 +20,13 @@ public class UefWindow implements AutoCloseable {
         setViewListener(getNativeWindowPtr(), listener);
     }
 
-    /**
-     * Resize the overlay to match the window size.
-     */
     public void resizeOverlay() {
         resizeOverlay(getNativeWindowPtr());
     }
 
 //>---------------- Native methods ----------------<\\
+
+    private native long createWindow(String title, String url, int x, int y, int width, int height, int flags);
 
     private native void resizeOverlay(long windowPtr);
 
