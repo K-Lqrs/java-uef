@@ -9,7 +9,8 @@
 using namespace ultralight;
 
 extern "C" {
-    JNIEXPORT jlong JNICALL Java_net_rk4z_juef_UefWindow_createWindow(JNIEnv *env, jobject obj, jstring title, jstring url, jint x, jint y, jint width, jint height, jint flags);
+    JNIEXPORT jlong JNICALL Java_net_rk4z_juef_UefWindow_createWindow(JNIEnv *env, jobject obj, jstring title, jstring url, jint x, jint y, jint width, jint
+    height, jboolean fullScreen, jint flags);
 
     JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_setWindowListener(JNIEnv *env, jobject obj, jlong window_ptr, jobject listener);
 
@@ -36,7 +37,7 @@ public:
     JavaListener *javaWindowListener_;
     JavaListener *javaViewListener_;
 
-    UefWindow(const char *title, const char *url, int x, int y, int width, int height, int flags);
+    UefWindow(const char *title, const char *url, int x, int y, int width, int height, bool fullScreen, int flags);
     ~UefWindow() override;
 
     void moveTo(int x, int y) const;
@@ -46,7 +47,7 @@ public:
     void setJavaWindowListener(JavaListener *listener);
     void setJavaViewListener(JavaListener *listener);
 
-    void OnClose(Window *window) override;
+    void OnClose(Window *window) override ;
     void OnResize(Window *window, uint32_t width, uint32_t height) override;
     bool OnKeyEvent(const KeyEvent &evt) override;
     bool OnMouseEvent(const MouseEvent &evt) override;

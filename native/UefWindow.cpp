@@ -7,9 +7,9 @@
 extern "C" {
     using namespace ultralight;
 
-    UefWindow::UefWindow(const char *title, const char *url, int x, int y, int width, int height, int flags)
+    UefWindow::UefWindow(const char *title, const char *url, int x, int y, int width, int height, bool fullScreen, int flags)
         : javaWindowListener_(nullptr), javaViewListener_(nullptr) {
-        window_ = Window::Create(app->main_monitor(), width, height, false, flags);
+        window_ = Window::Create(app->main_monitor(), width, height, fullScreen, flags);
         window_->MoveTo(x, y);
         window_->SetTitle(title);
         window_->Show();
@@ -20,7 +20,7 @@ extern "C" {
         overlay_->view()->set_view_listener(this);
     }
 
-    UefWindow::~UefWindow() override {
+    UefWindow::~UefWindow() {
         if (javaWindowListener_ != nullptr) {
             JNIEnv *env = javaWindowListener_->env;
             env->DeleteGlobalRef(javaWindowListener_->listener);
@@ -64,7 +64,7 @@ extern "C" {
         javaViewListener_ = listener;
     }
 
-    void UefWindow::OnClose(Window *window) override {
+    void UefWindow::OnClose(Window *window) {
         if (javaWindowListener_ && javaWindowListener_->listener) {
             JNIEnv *env = javaWindowListener_->env;
             jclass listenerClass = env->GetObjectClass(javaWindowListener_->listener);
@@ -75,7 +75,8 @@ extern "C" {
         }
     }
 
-    void UefWindow::OnResize(Window *window, uint32_t width, uint32_t height) override {
+    void UefWindow::OnResize(Window *window, uint32_t width, uint32_t height) {
+        overlay_->Resize(width, height);
         if (javaWindowListener_ && javaWindowListener_->listener) {
             JNIEnv *env = javaWindowListener_->env;
             jclass listenerClass = env->GetObjectClass(javaWindowListener_->listener);
@@ -86,7 +87,7 @@ extern "C" {
         }
     }
 
-    bool UefWindow::OnKeyEvent(const KeyEvent &evt) override {
+    bool UefWindow::OnKeyEvent(const KeyEvent &evt) {
         if (javaWindowListener_ && javaWindowListener_->listener) {
             JNIEnv *env = javaWindowListener_->env;
 
@@ -132,7 +133,7 @@ extern "C" {
         return false;
     }
 
-    bool UefWindow::OnMouseEvent(const MouseEvent &evt) override {
+    bool UefWindow::OnMouseEvent(const MouseEvent &evt) {
         if (javaWindowListener_ && javaWindowListener_->listener) {
             JNIEnv *env = javaWindowListener_->env;
 
@@ -193,7 +194,7 @@ extern "C" {
         return false;
     }
 
-    bool UefWindow::OnScrollEvent(const ScrollEvent &evt) override {
+    bool UefWindow::OnScrollEvent(const ScrollEvent &evt) {
         if (javaWindowListener_ && javaWindowListener_->listener) {
             JNIEnv *env = javaWindowListener_->env;
 
@@ -231,7 +232,7 @@ extern "C" {
         return false;
     }
 
-    void UefWindow::OnChangeCursor(View *caller, Cursor cursor) override {
+    void UefWindow::OnChangeCursor(View *caller, Cursor cursor) {
         window_->SetCursor(cursor);
         if (javaViewListener_ && javaViewListener_->listener) {
             JNIEnv *env = javaViewListener_->env;
@@ -251,7 +252,7 @@ extern "C" {
         }
     }
 
-    void UefWindow::OnChangeTitle(View *caller, const String &title) override {
+    void UefWindow::OnChangeTitle(View *caller, const String &title) {
         if (javaViewListener_ && javaViewListener_->listener) {
             JNIEnv *env = javaViewListener_->env;
 
@@ -269,7 +270,7 @@ extern "C" {
         }
     }
 
-    void UefWindow::OnChangeTooltip(View *caller, const String &tooltip) override {
+    void UefWindow::OnChangeTooltip(View *caller, const String &tooltip) {
         if (javaViewListener_ && javaViewListener_->listener) {
             JNIEnv *env = javaViewListener_->env;
 
@@ -287,7 +288,7 @@ extern "C" {
         }
     }
 
-    void UefWindow::OnRequestClose(View *caller) override {
+    void UefWindow::OnRequestClose(View *caller) {
         if (javaViewListener_ && javaViewListener_->listener) {
             JNIEnv *env = javaViewListener_->env;
 
@@ -301,7 +302,7 @@ extern "C" {
     }
 
     void UefWindow::OnAddConsoleMessage(View *caller, MessageSource source, MessageLevel level, const String &message, uint32_t line_number, uint32_t column_number,
-                                        const String &source_id) override {
+                                        const String &source_id) {
         if (javaViewListener_ && javaViewListener_->listener) {
             JNIEnv *env = javaViewListener_->env;
 
@@ -332,7 +333,7 @@ extern "C" {
         }
     }
 
-    void UefWindow::OnChangeURL(View *caller, const String &url) override {
+    void UefWindow::OnChangeURL(View *caller, const String &url) {
         if (javaViewListener_ && javaViewListener_->listener) {
             JNIEnv *env = javaViewListener_->env;
 
@@ -347,7 +348,7 @@ extern "C" {
         }
     }
 
-    RefPtr<View> UefWindow::OnCreateChildView(View *caller, const String &opener_url, const String &target_url, bool is_popup, const IntRect &popup_rect) override {
+    RefPtr<View> UefWindow::OnCreateChildView(View *caller, const String &opener_url, const String &target_url, bool is_popup, const IntRect &popup_rect) {
         if (javaViewListener_ && javaViewListener_->listener) {
             JNIEnv *env = javaViewListener_->env;
 
@@ -377,7 +378,7 @@ extern "C" {
         return nullptr;
     }
 
-    RefPtr<View> UefWindow::OnCreateInspectorView(View *caller, bool is_local, const String &inspected_url) override {
+    RefPtr<View> UefWindow::OnCreateInspectorView(View *caller, bool is_local, const String &inspected_url) {
         if (javaViewListener_ && javaViewListener_->listener) {
             JNIEnv *env = javaViewListener_->env;
 
@@ -398,11 +399,11 @@ extern "C" {
     }
 
     JNIEXPORT jlong JNICALL Java_net_rk4z_juef_UefWindow_createWindow(JNIEnv *env, jobject obj, jstring title, jstring url, jint x, jint y, jint width, jint
-                                                                      height, jint flags) {
+                                                                      height, jboolean fullScreen, jint flags) {
         const char *c_title = env->GetStringUTFChars(title, nullptr);
         const char *c_url = env->GetStringUTFChars(url, nullptr);
 
-        auto *window = new UefWindow(c_title, c_url, x, y, width, height, flags);
+        auto *window = new UefWindow(c_title, c_url, x, y, width, height, fullScreen, flags);
 
         env->ReleaseStringUTFChars(title, c_title);
         env->ReleaseStringUTFChars(url, c_url);

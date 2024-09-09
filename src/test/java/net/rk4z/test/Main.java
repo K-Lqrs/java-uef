@@ -15,9 +15,9 @@ public class Main {
 
         app.createApp(new UefConfig(), new UefSettings());
 
-        int flags = WindowFlags.combine(WindowFlags.Titled, WindowFlags.Resizable, WindowFlags.Maximizable, WindowFlags.Borderless);
+        int flags = WindowFlags.combine(WindowFlags.Borderless);
 
-        try (UefWindow window = new UefWindow("Hello World", "https://google.com", 50, 50, 800, 600, flags)) {
+        try (UefWindow window = new UefWindow("Hello World", "https://google.com", 50, 50, 800, 600, false, flags)) {
             window.setWindowListener(new UefWindowListener() {
                 @Override
                 public void onClose() {
@@ -29,7 +29,6 @@ public class Main {
                 @Override
                 public void onResize(int width, int height) {
                     System.out.println("Window resized: " + width + "x" + height);
-
                 }
 
                 @Override

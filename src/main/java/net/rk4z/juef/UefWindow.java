@@ -8,8 +8,8 @@ import static net.rk4z.juef.UefApp.logger;
 public class UefWindow implements AutoCloseable {
     private long nativeWindowPtr;
 
-    public UefWindow(String title, String url, int x, int y, int width, int height, int flags) {
-        nativeWindowPtr = createWindow(title, url, x, y, width, height, flags);
+    public UefWindow(String title, String url, int x, int y, int width, int height, boolean fullScreen, int flags) {
+        nativeWindowPtr = createWindow(title, url, x, y, width, height, fullScreen, flags);
     }
 
     public void setWindowListener(UefWindowListener listener) {
@@ -34,7 +34,7 @@ public class UefWindow implements AutoCloseable {
 
 //>------------------- Native methods --------------------<\\
 
-    private native long createWindow(String title, String url, int x, int y, int width, int height, int flags);
+    private native long createWindow(String title, String url, int x, int y, int width, int height, boolean fullScreen, int flags);
 
     private native void setWindowListener(long windowPtr, UefWindowListener listener);
 
