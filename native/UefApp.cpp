@@ -47,7 +47,6 @@ RefPtr<App> app;
 
 extern "C" {
 using namespace ultralight;
-
     JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_createApp(JNIEnv *env, jobject obj, jobject configObj, jobject settingsObj) {
         if (app.get() != nullptr) {
             jclass runtimeExceptionClass = env->FindClass("java/lang/RuntimeException");

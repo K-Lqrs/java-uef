@@ -6,6 +6,8 @@ import net.rk4z.juef.event.UefKeyEvent;
 import net.rk4z.juef.event.UefMouseEvent;
 import net.rk4z.juef.event.UefScrollEvent;
 
+import java.awt.*;
+
 public class Main {
     public static void main(String[] args) {
         UefApp app = new UefApp();
@@ -14,25 +16,26 @@ public class Main {
 
         app.createApp(new UefConfig(), new UefSettings());
 
-        try (UefWindow window = new UefWindow("Hello World", "https://google.com", 50, 50, 800, 600)) {
+        int flags = WindowFlags.combine(WindowFlags.Titled, WindowFlags.Resizable, WindowFlags.Maximizable);
 
+        try (UefWindow window = new UefWindow("Hello World", "https://google.com", 50, 50, 800, 600, flags)) {
             window.setWindowListener(new UefWindowListener() {
                 @Override
                 public void onClose() {
+                    System.exit(0);
                     System.out.println("Window closed");
                     app.destroy();
-                    System.exit(0);
                 }
 
                 @Override
                 public void onResize(int width, int height) {
                     System.out.println("Window resized: " + width + "x" + height);
-                    window.resizeOverlay(window.getNativeWindowPtr());
+                    window.resizeOverlay();
                 }
 
                 @Override
                 public boolean onKeyEvent(UefKeyEvent event) {
-                    System.out.println("Key event: " + event);
+                    System.out.println("Key event: " + event.virtualKeyCode);
                     return true;
                 }
 
@@ -49,7 +52,6 @@ public class Main {
                 }
             });
 
-            // アプリの実行
             app.run();
 
         } catch (Exception e) {

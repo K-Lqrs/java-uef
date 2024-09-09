@@ -3,9 +3,9 @@ package net.rk4z.juef.event;
 public class UefKeyEvent {
     public enum Type {
         KeyDown,
-        KeyUp,      // kType_KeyUp
-        RawKeyDown, // kType_RawKeyDown
-        Char        // kType_Char
+        KeyUp,
+        RawKeyDown,
+        Char
     }
 
     public static class Modifiers {
@@ -37,7 +37,19 @@ public class UefKeyEvent {
         this.isSystemKey = isSystemKey;
     }
 
-    public static native String getKeyIdentifierFromVirtualKeyCode(int virtualKeyCode);
+    public boolean isKeyDown() {
+        return this.type == Type.KeyDown;
+    }
 
-    public static native String getKeyFromVirtualKeyCode(int virtualKeyCode, boolean shift);
+    public boolean isKeyUp() {
+        return this.type == Type.KeyUp;
+    }
+
+    public boolean isRawKeyDown() {
+        return this.type == Type.RawKeyDown;
+    }
+
+    public boolean isCharEvent() {
+        return this.type == Type.Char;
+    }
 }

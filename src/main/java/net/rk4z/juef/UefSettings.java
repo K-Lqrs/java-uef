@@ -24,12 +24,4 @@ public class UefSettings {
         this.loadShadersFromFileSystem = loadShadersFromFileSystem;
         this.forceCpuRenderer = forceCpuRenderer;
     }
-
-    public String getDeveloperName() {
-        return developerName;
-    }
-
-    public String getAppName() {
-        return appName;
-    }
 }

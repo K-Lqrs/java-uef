@@ -8,9 +8,12 @@
 #include <jni.h>
 
 extern "C" {
-    JNIEXPORT jlong JNICALL Java_net_rk4z_juef_UefWindow_createWindow(JNIEnv *env, jobject obj, jstring title, jstring url, jint x, jint y, jint width, jint height);
+    JNIEXPORT jlong JNICALL Java_net_rk4z_juef_UefWindow_createWindow(JNIEnv *env, jobject obj, jstring title, jstring url, jint x, jint y, jint width, jint
+    height, jint flags);
 
-    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_setNativeWindowListener(JNIEnv *env, jobject obj, jlong window_ptr, jobject listener);
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_setWindowListener(JNIEnv *env, jobject obj, jlong window_ptr, jobject listener);
+
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_setViewListener(JNIEnv *env, jobject obj, jlong window_ptr, jobject listener);
 
     JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_resizeOverlay(JNIEnv *env, jobject obj, jlong window_ptr);
 
