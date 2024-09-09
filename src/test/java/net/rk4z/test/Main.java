@@ -1,12 +1,11 @@
 package net.rk4z.test;
 
 import net.rk4z.juef.*;
+import net.rk4z.juef.event.*;
+import net.rk4z.juef.listener.UefViewListener;
 import net.rk4z.juef.listener.UefWindowListener;
-import net.rk4z.juef.event.UefKeyEvent;
-import net.rk4z.juef.event.UefMouseEvent;
-import net.rk4z.juef.event.UefScrollEvent;
+import net.rk4z.juef.util.IntRect;
 
-import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -41,14 +40,56 @@ public class Main {
 
                 @Override
                 public boolean onMouseEvent(UefMouseEvent event) {
-                    System.out.println("Mouse event: " + event);
+                    System.out.println("Mouse event: " + event.x + ", " + event.y + ", " + event.button + ", " + event.type);
                     return true;
                 }
 
                 @Override
                 public boolean onScrollEvent(UefScrollEvent event) {
-                    System.out.println("Scroll event: " + event);
+                    System.out.println("Scroll event: " + event.deltaX + ", " + event.deltaY + ", " + event.type);
                     return true;
+                }
+            });
+
+            window.setViewListener(new UefViewListener() {
+                @Override
+                public void onChangeTitle(long viewPtr, String title) {
+
+                }
+
+                @Override
+                public void onChangeURL(long viewPtr, String url) {
+
+                }
+
+                @Override
+                public void onChangeTooltip(long viewPtr, String tooltip) {
+                    System.out.println("Tooltip changed: " + tooltip);
+                }
+
+                @Override
+                public void onChangeCursor(long viewPtr, UefCursor cursor) {
+                    System.out.println("Cursor changed: " + cursor);
+                }
+
+                @Override
+                public void onAddConsoleMessage(long viewPtr, UefMessageSource source, UefMessageLevel level, String message, int lineNumber, int columnNumber, String sourceId) {
+
+                }
+
+                @Override
+                public long onCreateChildView(long viewPtr, String openerUrl, String targetUrl, boolean isPopup, IntRect popupRect) {
+                    return 0;
+                }
+
+                @Override
+                public long onCreateInspectorView(long viewPtr, boolean isLocal, String inspectedUrl) {
+                    return 0;
+                }
+
+                @Override
+                public void onRequestClose(long viewPtr) {
+
                 }
             });
 
