@@ -15,9 +15,11 @@ public class Main {
 
         app.createApp(new UefConfig(), new UefSettings());
 
-        int flags = WindowFlags.combine(WindowFlags.Borderless);
+        int flags = WindowFlags.combine(WindowFlags.Titled, WindowFlags.Resizable, WindowFlags.Maximizable);
 
+        // Create a window instance
         try (UefWindow window = new UefWindow("Hello World", "https://google.com", 50, 50, 800, 600, false, flags)) {
+            // Set window listener
             window.setWindowListener(new UefWindowListener() {
                 @Override
                 public void onClose() {
@@ -50,6 +52,7 @@ public class Main {
                 }
             });
 
+            // Set view listener
             window.setViewListener(new UefViewListener() {
                 @Override
                 public void onChangeTitle(long viewPtr, String title) {

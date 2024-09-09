@@ -365,17 +365,23 @@ extern "C" {
                 jobject jPopupRect = env->NewObject(intRectClass, intRectConstructor, popup_rect.left, popup_rect.top, popup_rect.right, popup_rect.bottom);
 
                 jlong newViewPtr = env->CallLongMethod(javaViewListener_->listener, onCreateChildViewMethod, reinterpret_cast<jlong>(caller), jOpenerURL,
-                                                       jTargetURL,
-                                                       static_cast<jboolean>(is_popup), jPopupRect);
+                                                       jTargetURL, static_cast<jboolean>(is_popup), jPopupRect);
 
                 env->DeleteLocalRef(jOpenerURL);
                 env->DeleteLocalRef(jTargetURL);
                 env->DeleteLocalRef(jPopupRect);
 
-                return reinterpret_cast<View *>(newViewPtr);
+                if (newViewPtr != 0) {
+                    return reinterpret_cast<View *>(newViewPtr);
+                }
             }
         }
-        return nullptr;
+
+        ViewConfig config;
+        RefPtr<Renderer> renderer = app->renderer();
+        RefPtr<Session> session = renderer->default_session();
+
+        return renderer->CreateView(caller->width(), caller->height(), config, session);
     }
 
     RefPtr<View> UefWindow::OnCreateInspectorView(View *caller, bool is_local, const String &inspected_url) {
@@ -392,10 +398,18 @@ extern "C" {
                                                        static_cast<jboolean>(is_local), jInspectedURL);
 
                 env->DeleteLocalRef(jInspectedURL);
-                return reinterpret_cast<View *>(newViewPtr);
+
+                if (newViewPtr != 0) {
+                    return reinterpret_cast<View *>(newViewPtr);
+                }
             }
         }
-        return nullptr;
+
+        ViewConfig config;
+        RefPtr<Renderer> renderer = app->renderer();
+        RefPtr<Session> session = renderer->default_session();
+
+        return renderer->CreateView(caller->width(), caller->height(), config, session);
     }
 
     JNIEXPORT jlong JNICALL Java_net_rk4z_juef_UefWindow_createWindow(JNIEnv *env, jobject obj, jstring title, jstring url, jint x, jint y, jint width, jint
