@@ -8,9 +8,12 @@ using namespace ultralight;
 
 extern RefPtr<App> app;
 
+FaceWinding ConvertJavaFaceWindingToCpp(JNIEnv *env, jobject javaFaceWinding);
+
+FontHinting ConvertJavaFontHintingToCpp(JNIEnv *env, jobject javaFontHinting);
+
 extern "C" {
-    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_createApp(JNIEnv *env, jobject obj, jobject configObj,
-                                                           jobject settingsObj);
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_createApp(JNIEnv *env, jobject obj, jobject configObj, jobject settingsObj);
 
     JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_run(JNIEnv *env, jobject obj);
 

@@ -1,5 +1,7 @@
 package net.rk4z.juef.helper;
 
+import net.rk4z.juef.UefConfig;
+import net.rk4z.juef.UefSettings;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -14,6 +16,7 @@ import static net.rk4z.juef.UefApp.logger;
 public class UefHelper {
     private static final String roamingDir = Paths.get(System.getenv("APPDATA")).toString();
     public static String uefDir = Paths.get(roamingDir, "Uef").toString();
+    public static String uefLibDir = UefSettings.getFileSystemPath() + "libs/";
     public Boolean isLoaded = false;
 
     @NotNull
@@ -48,6 +51,9 @@ public class UefHelper {
         }
     }
 
+    /**
+     * Download the files required to run this application, place them in the appropriate locations, and load the ones you need.
+     */
     public void extractLibrariesAndLoad() {
         try {
             String[] libraries = {
@@ -60,21 +66,31 @@ public class UefHelper {
             String extension = getLibraryExtension();
 
             String icudt67l = "https://github.com/KT-Ruxy/java-uef/releases/download/icudt67l/icudt67l.dat";
-            Path path = Paths.get(uefDir, "assets/resources/icudt67l.dat");
+            Path path = Paths.get(UefSettings.getFileSystemPath(), "assets/resources/icudt67l.dat");
             downloadFile(icudt67l, path);
 
             String cacert = "https://github.com/KT-Ruxy/java-uef/releases/download/cacert/cacert.pem";
-            Path cacertPath = Paths.get(uefDir, "assets/resources/cacert.pem");
+            Path cacertPath = Paths.get(UefSettings.getFileSystemPath(), "assets/resources/cacert.pem");
             downloadFile(cacert, cacertPath);
 
             for (String lib : libraries) {
                 String libUrl = "https://github.com/KT-Ruxy/java-uef/releases/download/1.3.0-bin/" + lib + extension;
-                Path libPath = Paths.get(uefDir, lib + extension);
+
+                Path libPath;
+
+                if (getOperatingSystem().contains("win")) {
+                    libPath = Paths.get(uefLibDir, lib + extension);
+                } else if (getOperatingSystem().contains("mac")) {
+                    libPath = Paths.get(uefLibDir, "lib" + lib + ".dylib");
+                } else {
+                    libPath = Paths.get(uefLibDir, "lib" + lib + ".so");
+                }
+
                 downloadFile(libUrl, libPath);
             }
 
             for (String lib : libraries) {
-                System.load(Paths.get(uefDir, lib + extension).toString());
+                System.load(Paths.get(uefLibDir, lib + extension).toString());
             }
 
             isLoaded = true;

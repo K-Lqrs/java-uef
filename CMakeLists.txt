@@ -10,7 +10,9 @@ include_directories(${JNI_INCLUDE_DIRS} include)
 
 file(GLOB SOURCES "native/*.cpp")
 file(GLOB HEADERS "native/*.h")
+file(GLOB LGEC_SOURCES "lgec/*.cpp")
+file(GLOB LGEC_HEADERS "lgec/*.h")
 
-add_library(Uef SHARED ${SOURCES} ${HEADERS})
+add_library(Uef SHARED ${SOURCES} ${HEADERS} ${LGEC_SOURCES} ${LGEC_HEADERS})
 
 target_link_libraries(Uef ${JNI_LIBRARIES} "../lib/UltralightCore" "../lib/AppCore" "../lib/Ultralight" "../lib/WebCore")
