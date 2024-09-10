@@ -18,7 +18,11 @@ public class Main {
         int flags = WindowFlags.combine(WindowFlags.Titled, WindowFlags.Resizable, WindowFlags.Maximizable);
 
         // Create a window instance
-        try (UefWindow window = new UefWindow("Hello World", "https://google.com", 50, 50, 800, 600, false, flags)) {
+        try (UefWindow window = new UefWindow("Hello World", 50, 50, 800, 600, false, flags)) {
+            UefOverlay overlay = window.createOverlay(100, 100, 200, 200);
+
+            overlay.loadUrl("https://www.google.com");
+
             // Set window listener
             window.setWindowListener(new UefWindowListener() {
                 @Override
@@ -30,6 +34,7 @@ public class Main {
 
                 @Override
                 public void onResize(int width, int height) {
+                    overlay.resize(width, height);
                     System.out.println("Window resized: " + width + "x" + height);
                 }
 
@@ -94,6 +99,8 @@ public class Main {
                     System.out.println("Request close");
                 }
             });
+
+            window.show();
 
             app.run();
 

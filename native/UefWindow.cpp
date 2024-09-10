@@ -3,21 +3,17 @@
 #include <AppCore/Window.h>
 #include <AppCore/Overlay.h>
 #include "UefApp.h"
+#include "UefOverlay.h"
 
-extern "C" {
-    using namespace ultralight;
+using namespace ultralight;
 
-    UefWindow::UefWindow(const char *title, const char *url, int x, int y, int width, int height, bool fullScreen, int flags)
+    UefWindow::UefWindow(const char *title, int x, int y, int width, int height, bool fullScreen, int flags)
         : javaWindowListener_(nullptr), javaViewListener_(nullptr) {
         window_ = Window::Create(app->main_monitor(), width, height, fullScreen, flags);
         window_->MoveTo(x, y);
         window_->SetTitle(title);
         window_->Show();
         window_->set_listener(this);
-
-        overlay_ = Overlay::Create(window_, window_->width(), window_->height(), 0, 0);
-        overlay_->view()->LoadURL(url);
-        overlay_->view()->set_view_listener(this);
     }
 
     UefWindow::~UefWindow() {
@@ -76,7 +72,6 @@ extern "C" {
     }
 
     void UefWindow::OnResize(Window *window, uint32_t width, uint32_t height) {
-        overlay_->Resize(width, height);
         if (javaWindowListener_ && javaWindowListener_->listener) {
             JNIEnv *env = javaWindowListener_->env;
             jclass listenerClass = env->GetObjectClass(javaWindowListener_->listener);
@@ -412,15 +407,14 @@ extern "C" {
         return renderer->CreateView(caller->width(), caller->height(), config, session);
     }
 
-    JNIEXPORT jlong JNICALL Java_net_rk4z_juef_UefWindow_createWindow(JNIEnv *env, jobject obj, jstring title, jstring url, jint x, jint y, jint width, jint
+extern "C" {
+    JNIEXPORT jlong JNICALL Java_net_rk4z_juef_UefWindow_createWindow(JNIEnv *env, jobject obj, jstring title, jint x, jint y, jint width, jint
                                                                       height, jboolean fullScreen, jint flags) {
         const char *c_title = env->GetStringUTFChars(title, nullptr);
-        const char *c_url = env->GetStringUTFChars(url, nullptr);
 
-        auto *window = new UefWindow(c_title, c_url, x, y, width, height, fullScreen, flags);
+        auto *window = new UefWindow(c_title, x, y, width, height, fullScreen, flags);
 
         env->ReleaseStringUTFChars(title, c_title);
-        env->ReleaseStringUTFChars(url, c_url);
 
         return reinterpret_cast<jlong>(window);
     }
@@ -445,6 +439,11 @@ extern "C" {
         window->setJavaViewListener(javaListener);
     }
 
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_moveTo(JNIEnv *env, jobject obj, jlong window_ptr, jint x, jint y) {
+        auto *window = reinterpret_cast<UefWindow *>(window_ptr);
+        window->moveTo(x, y);
+    }
+
     JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_show(JNIEnv *env, jobject obj, jlong window_ptr) {
         auto *window = reinterpret_cast<UefWindow *>(window_ptr);
         window->show();
@@ -455,13 +454,23 @@ extern "C" {
         window->hide();
     }
 
+    JNIEXPORT jlong JNICALL Java_net_rk4z_juef_UefWindow_createOverlay(JNIEnv *env, jobject obj, jlong window_ptr, jint x, jint y, jint width, jint height) {
+        auto *window = reinterpret_cast<UefWindow *>(window_ptr);
+
+        auto *overlay = new UefOverlay(window->window_.get(), x, y, width, height);
+
+        return reinterpret_cast<jlong>(overlay);
+    }
+
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_setTitle(JNIEnv *env, jobject obj, jlong window_ptr, jstring title) {
+        auto *window = reinterpret_cast<UefWindow *>(window_ptr);
+        const char *c_title = env->GetStringUTFChars(title, nullptr);
+        window->window_->SetTitle(c_title);
+        env->ReleaseStringUTFChars(title, c_title);
+    }
+
     JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_destroy(JNIEnv *env, jobject obj, jlong window_ptr) {
         auto *window = reinterpret_cast<UefWindow *>(window_ptr);
         delete window;
-    }
-
-    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_moveTo(JNIEnv *env, jobject obj, jlong window_ptr, jint x, jint y) {
-        auto *window = reinterpret_cast<UefWindow *>(window_ptr);
-        window->moveTo(x, y);
     }
 }

@@ -8,8 +8,8 @@ import static net.rk4z.juef.UefApp.logger;
 public class UefWindow implements AutoCloseable {
     private long nativeWindowPtr;
 
-    public UefWindow(String title, String url, int x, int y, int width, int height, boolean fullScreen, int flags) {
-        nativeWindowPtr = createWindow(title, url, x, y, width, height, fullScreen, flags);
+    public UefWindow(String title, int x, int y, int width, int height, boolean fullScreen, int flags) {
+        nativeWindowPtr = createWindow(title, x, y, width, height, fullScreen, flags);
     }
 
     public void setWindowListener(UefWindowListener listener) {
@@ -18,6 +18,10 @@ public class UefWindow implements AutoCloseable {
 
     public void setViewListener(UefViewListener listener) {
         setViewListener(getNativeWindowPtr(), listener);
+    }
+
+    public void setTitle(String title) {
+        setTitle(getNativeWindowPtr(), title);
     }
 
     public void moveTo(int x, int y) {
@@ -32,9 +36,14 @@ public class UefWindow implements AutoCloseable {
         hide(getNativeWindowPtr());
     }
 
+    public UefOverlay createOverlay(int x, int y, int width, int height) {
+        long nativeOverlayPtr = createOverlay(getNativeWindowPtr(), x, y, width, height);
+        return new UefOverlay(nativeOverlayPtr);
+    }
+
 //>------------------- Native methods --------------------<\\
 
-    private native long createWindow(String title, String url, int x, int y, int width, int height, boolean fullScreen, int flags);
+    private native long createWindow(String title, int x, int y, int width, int height, boolean fullScreen, int flags);
 
     private native void setWindowListener(long windowPtr, UefWindowListener listener);
 
@@ -45,6 +54,10 @@ public class UefWindow implements AutoCloseable {
     private native void show(long windowPtr);
 
     private native void hide(long windowPtr);
+
+    private native void setTitle(long windowPtr, String title);
+
+    private native long createOverlay(long windowPtr, int x, int y, int width, int height);
 
     private native void destroy(long windowPtr);
 
@@ -62,7 +75,7 @@ public class UefWindow implements AutoCloseable {
     public void close() {
         if (nativeWindowPtr != 0) {
             logger.info("Closing window");
-            destroy(nativeWindowPtr);
+            destroy(getNativeWindowPtr());
             nativeWindowPtr = 0;
         }
     }

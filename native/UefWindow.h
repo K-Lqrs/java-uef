@@ -8,23 +8,6 @@
 
 using namespace ultralight;
 
-extern "C" {
-    JNIEXPORT jlong JNICALL Java_net_rk4z_juef_UefWindow_createWindow(JNIEnv *env, jobject obj, jstring title, jstring url, jint x, jint y, jint width, jint
-    height, jboolean fullScreen, jint flags);
-
-    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_setWindowListener(JNIEnv *env, jobject obj, jlong window_ptr, jobject listener);
-
-    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_setViewListener(JNIEnv *env, jobject obj, jlong window_ptr, jobject listener);
-
-    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_moveTo(JNIEnv *env, jobject obj, jlong window_ptr, jint x, jint y);
-
-    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_show(JNIEnv *env, jobject obj, jlong window_ptr);
-
-    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_hide(JNIEnv *env, jobject obj, jlong window_ptr);
-
-    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_destroy(JNIEnv *env, jobject obj, jlong window_ptr);
-}
-
 struct JavaListener {
     jobject listener;
     JNIEnv *env;
@@ -37,7 +20,7 @@ public:
     JavaListener *javaWindowListener_;
     JavaListener *javaViewListener_;
 
-    UefWindow(const char *title, const char *url, int x, int y, int width, int height, bool fullScreen, int flags);
+    UefWindow(const char *title, int x, int y, int width, int height, bool fullScreen, int flags);
     ~UefWindow() override;
 
     void moveTo(int x, int y) const;
@@ -61,5 +44,26 @@ public:
     RefPtr<View> OnCreateChildView(View *caller, const String &opener_url, const String &target_url, bool is_popup, const IntRect &popup_rect) override;
     RefPtr<View> OnCreateInspectorView(View *caller, bool is_local, const String &inspected_url) override;
 };
+
+extern "C" {
+    JNIEXPORT jlong JNICALL Java_net_rk4z_juef_UefWindow_createWindow(JNIEnv *env, jobject obj, jstring title, jint x, jint y, jint width, jint
+    height, jboolean fullScreen, jint flags);
+
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_setWindowListener(JNIEnv *env, jobject obj, jlong window_ptr, jobject listener);
+
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_setViewListener(JNIEnv *env, jobject obj, jlong window_ptr, jobject listener);
+
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_moveTo(JNIEnv *env, jobject obj, jlong window_ptr, jint x, jint y);
+
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_show(JNIEnv *env, jobject obj, jlong window_ptr);
+
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_hide(JNIEnv *env, jobject obj, jlong window_ptr);
+
+    JNIEXPORT jlong JNICALL Java_net_rk4z_juef_UefWindow_createOverlay(JNIEnv *env, jobject obj, jlong window_ptr, jint x, jint y, jint width, jint height);
+
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_setTitle(JNIEnv *env, jobject obj, jlong window_ptr, jstring title);
+
+    JNIEXPORT void JNICALL Java_net_rk4z_juef_UefWindow_destroy(JNIEnv *env, jobject obj, jlong window_ptr);
+}
 
 #endif //UEFWINDOW_H
