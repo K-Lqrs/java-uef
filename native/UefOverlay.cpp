@@ -19,6 +19,12 @@ void UefOverlay::resize(const int width, const int height) const {
     }
 }
 
+void UefOverlay::focus() {
+    if (overlay_) {
+        overlay_->Focus();
+    }
+}
+
 void UefOverlay::destroy(UefOverlay* overlay) {
     delete overlay;
 }
@@ -28,7 +34,7 @@ void UefOverlay::destroy(UefOverlay* overlay) {
 void Java_net_rk4z_uef_UefOverlay_moveTo(JNIEnv *env, jobject obj, jlong overlay_ptr, jint x, jint y) {
     auto *overlay = reinterpret_cast<UefOverlay *>(overlay_ptr);
     if (overlay) {
-        overlay->moveTo(x, y);  // 安全に操作
+        overlay->moveTo(x, y);
     }
 }
 

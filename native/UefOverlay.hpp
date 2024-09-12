@@ -17,6 +17,10 @@ public:
 
     void moveTo(int x, int y) const;
     void resize(int width, int height) const;
+    void focus();
+    void unFocus();
+    void show();
+    void hide();
     static void destroy(UefOverlay* overlay);
 
     inline UefOverlay* get() {
