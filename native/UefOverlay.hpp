@@ -17,10 +17,11 @@ public:
 
     void moveTo(int x, int y) const;
     void resize(int width, int height) const;
-    void focus();
-    void unFocus();
-    void show();
-    void hide();
+    void focus() const;
+    void unFocus() const;
+    void show() const;
+    void hide() const;
+
     static void destroy(UefOverlay* overlay);
 
     inline UefOverlay* get() {
@@ -34,6 +35,16 @@ public:
 
 extern "C" {
     JNIEXPORT void JNICALL Java_net_rk4z_uef_UefOverlay_moveTo(JNIEnv *env, jobject obj, jlong overlay_ptr, jint x, jint y);
+
+    JNIEXPORT void JNICALL Java_net_rk4z_uef_UefOverlay_resize(JNIEnv *env, jobject obj, jlong overlay_ptr, jint width, jint height);
+
+    JNIEXPORT void JNICALL Java_net_rk4z_uef_UefOverlay_focus(JNIEnv *env, jobject obj, jlong overlay_ptr);
+
+    JNIEXPORT void JNICALL Java_net_rk4z_uef_UefOverlay_unFocus(JNIEnv *env, jobject obj, jlong overlay_ptr);
+
+    JNIEXPORT void JNICALL Java_net_rk4z_uef_UefOverlay_show(JNIEnv *env, jobject obj, jlong overlay_ptr);
+
+    JNIEXPORT void JNICALL Java_net_rk4z_uef_UefOverlay_hide(JNIEnv *env, jobject obj, jlong overlay_ptr);
 
     JNIEXPORT void JNICALL Java_net_rk4z_uef_UefOverlay_destroy(JNIEnv *env, jobject obj, jlong overlay_ptr);
 }
