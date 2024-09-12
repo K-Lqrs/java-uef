@@ -9,10 +9,29 @@ find_package(JNI REQUIRED)
 include_directories(${JNI_INCLUDE_DIRS} include)
 
 file(GLOB SOURCES "native/*.cpp")
-file(GLOB HEADERS "native/*.h")
-file(GLOB LGEC_SOURCES "lgec/*.cpp")
-file(GLOB LGEC_HEADERS "lgec/*.h")
+file(GLOB HEADERS "native/*.hpp")
 
-add_library(Uef SHARED ${SOURCES} ${HEADERS} ${LGEC_SOURCES} ${LGEC_HEADERS})
+add_library(Uef SHARED ${SOURCES} ${HEADERS})
 
-target_link_libraries(Uef ${JNI_LIBRARIES} "../lib/UltralightCore" "../lib/AppCore" "../lib/Ultralight" "../lib/WebCore")
+if(WIN32)
+    target_link_libraries(Uef ${JNI_LIBRARIES}
+            "${CMAKE_SOURCE_DIR}/lib/UltralightCore.lib"
+            "${CMAKE_SOURCE_DIR}/lib/AppCore.lib"
+            "${CMAKE_SOURCE_DIR}/lib/Ultralight.lib"
+            "${CMAKE_SOURCE_DIR}/lib/WebCore.lib"
+    )
+elseif(APPLE)
+    target_link_libraries(Uef ${JNI_LIBRARIES}
+            "${CMAKE_SOURCE_DIR}/lib/libUltralightCore.dylib"
+            "${CMAKE_SOURCE_DIR}/lib/libAppCore.dylib"
+            "${CMAKE_SOURCE_DIR}/lib/libUltralight.dylib"
+            "${CMAKE_SOURCE_DIR}/lib/libWebCore.dylib"
+    )
+elseif(UNIX)
+    target_link_libraries(Uef ${JNI_LIBRARIES}
+            "${CMAKE_SOURCE_DIR}/lib/libUltralightCore.so"
+            "${CMAKE_SOURCE_DIR}/lib/libAppCore.so"
+            "${CMAKE_SOURCE_DIR}/lib/libUltralight.so"
+            "${CMAKE_SOURCE_DIR}/lib/libWebCore.so"
+    )
+endif()

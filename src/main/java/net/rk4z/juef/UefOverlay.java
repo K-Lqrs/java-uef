@@ -28,6 +28,8 @@ public class UefOverlay implements AutoCloseable{
 
 //>------------------- Native methods -------------------<\\
 
+    private native long createView(long windowPtr, int x, int y, int width, int height);
+
     private native void moveOverlay(long overlayPtr, int x, int y);
 
     private native void resize(long overlayPtr, int width, int height);

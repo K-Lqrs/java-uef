@@ -1,5 +1,8 @@
 package net.rk4z.juef.util;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 public class Vec2 {
     public float x, y;
 
@@ -30,19 +33,19 @@ public class Vec2 {
         return new Vec2(y, y);
     }
 
-    public Vec2 add(Vec2 other) {
+    public Vec2 add(@NotNull Vec2 other) {
         return new Vec2(this.x + other.x, this.y + other.y);
     }
 
-    public Vec2 subtract(Vec2 other) {
+    public Vec2 subtract(@NotNull Vec2 other) {
         return new Vec2(this.x - other.x, this.y - other.y);
     }
 
-    public Vec2 multiply(Vec2 other) {
+    public Vec2 multiply(@NotNull Vec2 other) {
         return new Vec2(this.x * other.x, this.y * other.y);
     }
 
-    public Vec2 divide(Vec2 other) {
+    public Vec2 divide(@NotNull Vec2 other) {
         return new Vec2(this.x / other.x, this.y / other.y);
     }
 
@@ -62,27 +65,34 @@ public class Vec2 {
         return new Vec2(this.x / value, this.y / value);
     }
 
-    public boolean equals(Vec2 other) {
+    public boolean equals(@NotNull Vec2 other) {
         return this.x == other.x && this.y == other.y;
     }
 
-    public static Vec2 min(Vec2 a, Vec2 b) {
+    @NotNull
+    @Contract("_, _ -> new")
+    public static Vec2 min(@NotNull Vec2 a, @NotNull Vec2 b) {
         return new Vec2(Math.min(a.x, b.x), Math.min(a.y, b.y));
     }
 
-    public static Vec2 max(Vec2 a, Vec2 b) {
+    @NotNull
+    @Contract("_, _ -> new")
+    public static Vec2 max(@NotNull Vec2 a, @NotNull Vec2 b) {
         return new Vec2(Math.max(a.x, b.x), Math.max(a.y, b.y));
     }
 
+    @NotNull
+    @Contract("_, _, _ -> new")
     public static Vec2 clamp(Vec2 x, Vec2 minVal, Vec2 maxVal) {
         return max(min(x, minVal), maxVal);
     }
 
-    public static Vec2 mix(Vec2 a, Vec2 b, float t) {
+    public static Vec2 mix(@NotNull Vec2 a, @NotNull Vec2 b, float t) {
         return a.multiply(1.0f - t).add(b.multiply(t));
     }
 
-    public static float length(Vec2 a) {
+    @Contract(pure = true)
+    public static float length(@NotNull Vec2 a) {
         return (float) Math.sqrt(a.x * a.x + a.y * a.y);
     }
 
@@ -90,19 +100,20 @@ public class Vec2 {
         return dot(a, a);
     }
 
-    public static float distance(Vec2 a, Vec2 b) {
+    public static float distance(@NotNull Vec2 a, Vec2 b) {
         return length(a.subtract(b));
     }
 
-    public static float distanceSquared(Vec2 a, Vec2 b) {
+    public static float distanceSquared(@NotNull Vec2 a, Vec2 b) {
         return lengthSquared(a.subtract(b));
     }
 
-    public static Vec2 normalize(Vec2 a) {
+    public static Vec2 normalize(@NotNull Vec2 a) {
         return a.divide(length(a));
     }
 
-    public static float dot(Vec2 a, Vec2 b) {
+    @Contract(pure = true)
+    public static float dot(@NotNull Vec2 a, @NotNull Vec2 b) {
         return a.x * b.x + a.y * b.y;
     }
 }

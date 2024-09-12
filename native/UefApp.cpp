@@ -1,6 +1,4 @@
-#include "UefApp.h"
-
-RefPtr<App> app = nullptr;
+#include "UefApp.hpp"
 
 FaceWinding ConvertJavaFaceWindingToCpp(JNIEnv *env, jobject javaFaceWinding) {
     jclass enumClass = env->GetObjectClass(javaFaceWinding);
@@ -42,13 +40,52 @@ FontHinting ConvertJavaFontHintingToCpp(JNIEnv *env, jobject javaFontHinting) {
     return fontHinting;
 }
 
-JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_createApp(JNIEnv *env, jobject obj, jobject configObj, jobject settingsObj) {
-    if (app.get() != nullptr) {
+void UefApp::createApp(JNIEnv *env, const Config& config, const Settings& settings) {
+    if (app_.get() != nullptr) {
         jclass runtimeExceptionClass = env->FindClass("java/lang/RuntimeException");
         env->ThrowNew(runtimeExceptionClass, "App already created");
         return;
     }
 
+    app_ = App::Create(settings, config);
+}
+
+void UefApp::run(JNIEnv *env) {
+    if (app_.get() == nullptr) {
+        jclass runtimeExceptionClass = env->FindClass("java/lang/RuntimeException");
+        env->ThrowNew(runtimeExceptionClass, "App not created");
+        return;
+    }
+
+    app_->Run();
+}
+
+void UefApp::stop(JNIEnv *env) {
+    if (app_.get() == nullptr) {
+        jclass runtimeExceptionClass = env->FindClass("java/lang/RuntimeException");
+        env->ThrowNew(runtimeExceptionClass, "App not created");
+        return;
+    }
+
+    if (app_->is_running()) {
+        app_->Quit();
+    }
+}
+
+void UefApp::destroy(JNIEnv *env) {
+    if (app_.get() == nullptr) {
+        jclass runtimeExceptionClass = env->FindClass("java/lang/RuntimeException");
+        env->ThrowNew(runtimeExceptionClass, "App not created");
+        return;
+    }
+
+    if (app_->is_running()) {
+        app_->Quit();
+    }
+    app_.reset();
+}
+
+JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_createApp(JNIEnv *env, jobject obj, jobject configObj, jobject settingsObj) {
     jclass settingsClass = env->GetObjectClass(settingsObj);
 
     jfieldID developerNameField = env->GetFieldID(settingsClass, "developerName", "Ljava/lang/String;");
@@ -158,40 +195,17 @@ JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_createApp(JNIEnv *env, jobject 
     config.max_update_time = maxUpdateTime;
     config.bitmap_alignment = bitmapAlignment;
 
-    app = App::Create(settings, config);
+    UefApp::createApp(env, config, settings);
 }
 
 JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_run(JNIEnv *env, jobject obj) {
-    if (app.get() == nullptr) {
-        jclass runtimeExceptionClass = env->FindClass("java/lang/RuntimeException");
-        env->ThrowNew(runtimeExceptionClass, "App not created");
-        return;
-    }
-
-    app->Run();
+    UefApp::run(env);
 }
 
 JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_stop(JNIEnv *env, jobject obj) {
-    if (app.get() == nullptr) {
-        jclass runtimeExceptionClass = env->FindClass("java/lang/RuntimeException");
-        env->ThrowNew(runtimeExceptionClass, "App not created");
-        return;
-    }
-
-    if (app->is_running()) {
-        app->Quit();
-    }
+    UefApp::stop(env);
 }
 
 JNIEXPORT void JNICALL Java_net_rk4z_juef_UefApp_destroy(JNIEnv *env, jobject obj) {
-    if (app.get() == nullptr) {
-        jclass runtimeExceptionClass = env->FindClass("java/lang/RuntimeException");
-        env->ThrowNew(runtimeExceptionClass, "App not created");
-        return;
-    }
-
-    if (app->is_running()) {
-        app->Quit();
-    }
-    app.reset();
+    UefApp::destroy(env);
 }
