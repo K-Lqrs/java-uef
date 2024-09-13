@@ -10,7 +10,7 @@ UefRenderer::UefRenderer(const Config &config) {
 
 UefRenderer::~UefRenderer() = default;
 
-void UefRenderer::createSession(jboolean isPersistent, String name) {
+void UefRenderer::createSession(const jboolean isPersistent, const String& name) const {
     //TODO: Implement UefSession
     renderer_->CreateSession(isPersistent, name);
 }

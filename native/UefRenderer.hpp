@@ -14,7 +14,7 @@ public:
     explicit UefRenderer(const Config &config);
     ~UefRenderer();
 
-    void createSession(jboolean isPersistent, String name);
+    void createSession(jboolean isPersistent, const String& name) const;
 };
 
 

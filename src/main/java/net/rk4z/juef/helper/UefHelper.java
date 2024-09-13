@@ -1,6 +1,5 @@
 package net.rk4z.juef.helper;
 
-import net.rk4z.juef.UefConfig;
 import net.rk4z.juef.UefSettings;
 import org.jetbrains.annotations.NotNull;
 
@@ -63,6 +62,11 @@ public class UefHelper {
                     "AppCore",
             };
 
+            String[] licenses = {
+                    "EULA",
+                    "LICENSE"
+            };
+
             String extension = getLibraryExtension();
 
             String icudt67l = "https://github.com/KT-Ruxy/java-uef/releases/download/icudt67l/icudt67l.dat";
@@ -73,6 +77,13 @@ public class UefHelper {
             Path cacertPath = Paths.get(UefSettings.getFileSystemPath(), "assets/resources/cacert.pem");
             downloadFile(cacert, cacertPath);
 
+            for (String license : licenses) {
+                String licenseUrl = "https://github.com/KT-Ruxy/java-uef/releases/download/licenses/" + license + ".txt";
+
+                Path licensePath = Paths.get(UefSettings.getFileSystemPath(), "licenses/" + license + ".txt");
+                downloadFile(licenseUrl, licensePath);
+            }
+
             for (String lib : libraries) {
                 String libUrl = "https://github.com/KT-Ruxy/java-uef/releases/download/1.3.0-bin/" + lib + extension;
 
@@ -81,9 +92,9 @@ public class UefHelper {
                 if (getOperatingSystem().contains("win")) {
                     libPath = Paths.get(uefLibDir, lib + extension);
                 } else if (getOperatingSystem().contains("mac")) {
-                    libPath = Paths.get(uefLibDir, "lib" + lib + ".dylib");
+                    libPath = Paths.get(uefLibDir, lib + extension);
                 } else {
-                    libPath = Paths.get(uefLibDir, "lib" + lib + ".so");
+                    libPath = Paths.get(uefLibDir, lib + extension);
                 }
 
                 downloadFile(libUrl, libPath);
