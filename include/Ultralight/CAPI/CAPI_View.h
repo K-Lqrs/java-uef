@@ -42,7 +42,20 @@ ULExport ULViewConfig ulCreateViewConfig();
 ULExport void ulDestroyViewConfig(ULViewConfig config);
 
 ///
-/// Whether to render using the GPU renderer (accelerated) or the CPU renderer (unaccelerated).
+/// Set a user-generated id of the display (monitor, TV, or screen) that the View will be shown on.
+/// 
+/// Animations are driven based on the physical refresh rate of the display. Multiple Views can
+/// share the same display.
+/// 
+/// 
+/// @note This is automatically managed for you when ulCreateApp() is used.
+/// 
+/// @see ulRefreshDisplay()
+/// 
+ULExport void ulViewConfigSetDisplayId(ULViewConfig config, unsigned int display_id);
+
+///
+/// Set whether to render using the GPU renderer (accelerated) or the CPU renderer (unaccelerated).
 ///
 /// This option is only valid if you're managing the Renderer yourself (eg, you've previously
 /// called ulCreateRenderer() instead of ulCreateApp()).
@@ -62,7 +75,7 @@ ULExport void ulViewConfigSetIsAccelerated(ULViewConfig config, bool is_accelera
 ULExport void ulViewConfigSetIsTransparent(ULViewConfig config, bool is_transparent);
 
 ///
-/// The initial device scale, ie. the amount to scale page units to screen pixels. This should be
+/// Set the initial device scale, ie. the amount to scale page units to screen pixels. This should be
 /// set to the scaling factor of the device that the View is displayed on. (Default = 1.0)
 ///
 /// @note 1.0 is equal to 100% zoom (no scaling), 2.0 is equal to 200% zoom (2x scaling)
@@ -70,7 +83,7 @@ ULExport void ulViewConfigSetIsTransparent(ULViewConfig config, bool is_transpar
 ULExport void ulViewConfigSetInitialDeviceScale(ULViewConfig config, double initial_device_scale);
 
 ///
-/// Whether or not the View should initially have input focus. (Default = True)
+/// Set whether or not the View should initially have input focus. (Default = True)
 ///
 ULExport void ulViewConfigSetInitialFocus(ULViewConfig config, bool is_focused);
 
@@ -150,6 +163,18 @@ ULExport unsigned int ulViewGetWidth(ULView view);
 /// Get the height, in pixels.
 ///
 ULExport unsigned int ulViewGetHeight(ULView view);
+
+///
+// Get the display id of the View.
+///
+ULExport unsigned int ulViewGetDisplayId(ULView view);
+
+///
+/// Set the display id of the View.
+/// 
+/// This should be called when the View is moved to another display.
+/// 
+ULExport void ulViewSetDisplayId(ULView view, unsigned int display_id);
 
 ///
 /// Get the device scale, ie. the amount to scale page units to screen pixels.

@@ -9,6 +9,7 @@
 #define ULTRALIGHT_CAPI_DEFINES_H
 
 #include <stddef.h>
+#include <stdint.h>
 #include <JavaScriptCore/JavaScript.h>
 #ifdef __OBJC__
 #import <AppKit/NSEvent.h>

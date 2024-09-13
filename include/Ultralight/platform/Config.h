@@ -14,7 +14,7 @@ namespace ultralight {
 ///
 /// The winding order for front-facing triangles. (Only used when the GPU renderer is used)
 ///
-enum class UExport FaceWinding : uint8_t {
+enum class FaceWinding : uint8_t {
   ///
   /// Clockwise Winding (Direct3D, etc.)
   ///
@@ -26,7 +26,7 @@ enum class UExport FaceWinding : uint8_t {
   CounterClockwise,
 };
 
-enum class UExport FontHinting : uint8_t {
+enum class FontHinting : uint8_t {
   ///
   /// Lighter hinting algorithm-- glyphs are slightly fuzzier but better resemble their original
   /// shape. This is achieved by snapping glyphs to the pixel grid only vertically which better
@@ -50,6 +50,23 @@ enum class UExport FontHinting : uint8_t {
   /// No hinting is performed-- fonts may be blurry at smaller font sizes.
   ///
   None,
+};
+
+enum class EffectQuality : uint8_t {
+  ///
+  /// Fastest effect quality-- uses the lowest quality effects (half-resolution, fewer passes, etc.)
+  /// 
+  Low,
+
+  ///
+  /// Default effect quality-- strikes a good balance between quality and performance.
+  /// 
+  Medium,
+
+  ///
+  /// Highest effect quality-- favors quality over performance.
+  /// 
+  High,
 };
 
 ///
@@ -241,6 +258,11 @@ struct UExport Config {
   /// slight cost to performance.
   ///
   uint32_t bitmap_alignment = 16;
+
+  ///
+  /// The quality of effects (blurs, CSS filters, SVG filters, etc.) to use when rendering.
+  /// 
+  EffectQuality effect_quality = EffectQuality::Medium;
 };
 
 } // namespace ultralight

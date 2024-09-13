@@ -62,7 +62,7 @@ struct Vertex_2f_4ub_2f_2f_28f {
 ///
 /// Vertex buffer formats (identifiers start with underscore due to C++ naming rules)
 ///
-enum class UExport VertexBufferFormat : uint8_t {
+enum class VertexBufferFormat : uint8_t {
   _2f_4ub_2f,
   _2f_4ub_2f_2f_28f,
 };
@@ -95,7 +95,7 @@ struct UExport IndexBuffer {
 /// Each of these correspond to a vertex/pixel shader pair. You can find stock shader code for
 /// these in the `shaders` folder of the AppCore repo.
 ///
-enum class UExport ShaderType : uint8_t {
+enum class ShaderType : uint8_t {
   Fill,     // Shader program for quad geometry
   FillPath, // Shader program for path geometry
 };
@@ -153,7 +153,7 @@ struct UExport GPUState {
 ///
 /// Command types, used by Command::command_type
 ///
-enum class UExport CommandType : uint8_t {
+enum class CommandType : uint8_t {
   ClearRenderBuffer,
   DrawGeometry,
 };
