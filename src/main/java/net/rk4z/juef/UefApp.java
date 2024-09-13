@@ -17,6 +17,10 @@ public class UefApp {
 
     /**
      * Create the new app
+     * <p>
+     * The app is singleton, so only one instance can be created.
+     * <p>
+     * Do not call this method more than once.
      */
     public void createApp() {
         createApp(config, settings);

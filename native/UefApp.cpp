@@ -1,4 +1,5 @@
 #include "UefApp.hpp"
+#include "Logger.hpp"
 
 FaceWinding ConvertJavaFaceWindingToCpp(JNIEnv *env, jobject javaFaceWinding) {
     jclass enumClass = env->GetObjectClass(javaFaceWinding);
@@ -43,11 +44,22 @@ FontHinting ConvertJavaFontHintingToCpp(JNIEnv *env, jobject javaFontHinting) {
 void UefApp::createApp(JNIEnv *env, const Config& config, const Settings& settings) {
     if (app_.get() != nullptr) {
         jclass runtimeExceptionClass = env->FindClass("java/lang/RuntimeException");
-        env->ThrowNew(runtimeExceptionClass, "App already created");
+        env->ThrowNew(runtimeExceptionClass, "App already created. App is a singleton, so it can only be created once.");
         return;
     }
 
-    app_ = App::Create(settings, config);
+    try {
+        app_ = App::Create(settings, config);
+    } catch (std::bad_alloc& e) {
+        jclass outOfMemoryErrorClass = env->FindClass("java/lang/OutOfMemoryError");
+        env->ThrowNew(outOfMemoryErrorClass, e.what());
+    } catch (std::exception& e) {
+        jclass runtimeExceptionClass = env->FindClass("java/lang/RuntimeException");
+        env->ThrowNew(runtimeExceptionClass, e.what());
+    } catch (...) {
+        jclass runtimeExceptionClass = env->FindClass("java/lang/RuntimeException");
+        env->ThrowNew(runtimeExceptionClass, "Unknown error occurred while creating App");
+    }
 }
 
 void UefApp::run(JNIEnv *env) {
