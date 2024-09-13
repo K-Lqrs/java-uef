@@ -1,7 +1,6 @@
-sdk
 .gradle
 .idea
 cmake-build-debug
 build
 cbuild
-lgec
+src/test/*

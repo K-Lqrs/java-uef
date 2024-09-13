@@ -1,10 +1,14 @@
 package net.rk4z.juef;
 
+import net.rk4z.juef.util.EffectQuality;
+import net.rk4z.juef.util.FaceWinding;
+import net.rk4z.juef.util.FontHinting;
+
 public class UefConfig {
     private final String cachePath;
     private final String resourcePathPrefix;
     private final FaceWinding faceWinding;
-    private final FontHinting fontHinting; // Enumを使用
+    private final FontHinting fontHinting;
     private final double fontGamma;
     private final String userStylesheet;
     private final boolean forceRepaint;
@@ -19,6 +23,7 @@ public class UefConfig {
     private final long numRendererThreads;
     private final double maxUpdateTime;
     private final long bitmapAlignment;
+    private final EffectQuality effectQuality;
 
     public UefConfig() {
         this.cachePath = ".cache/";
@@ -39,13 +44,14 @@ public class UefConfig {
         this.numRendererThreads = 0;
         this.maxUpdateTime = 1.0 / 200.0;
         this.bitmapAlignment = 16;
+        this.effectQuality = EffectQuality.Medium;
     }
 
     public UefConfig(String cachePath, String resourcePathPrefix, FaceWinding faceWinding, FontHinting fontHinting,
                      double fontGamma, String userStylesheet, boolean forceRepaint, double animationTimerDelay,
                      double scrollTimerDelay, double recycleDelay, long memoryCacheSize, long pageCacheSize,
                      long overrideRamSize, long minLargeHeapSize, long minSmallHeapSize, long numRendererThreads,
-                     double maxUpdateTime, long bitmapAlignment) {
+                     double maxUpdateTime, long bitmapAlignment, EffectQuality effectQuality) {
         this.cachePath = cachePath;
         this.resourcePathPrefix = resourcePathPrefix;
         this.faceWinding = faceWinding;
@@ -64,6 +70,7 @@ public class UefConfig {
         this.numRendererThreads = numRendererThreads;
         this.maxUpdateTime = maxUpdateTime;
         this.bitmapAlignment = bitmapAlignment;
+        this.effectQuality = effectQuality;
     }
 }
 

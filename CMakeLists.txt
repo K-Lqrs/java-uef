@@ -22,16 +22,16 @@ if(WIN32)
     )
 elseif(APPLE)
     target_link_libraries(Uef ${JNI_LIBRARIES}
-            "${CMAKE_SOURCE_DIR}/lib/libUltralightCore.dylib"
-            "${CMAKE_SOURCE_DIR}/lib/libAppCore.dylib"
-            "${CMAKE_SOURCE_DIR}/lib/libUltralight.dylib"
-            "${CMAKE_SOURCE_DIR}/lib/libWebCore.dylib"
+            "${CMAKE_SOURCE_DIR}/lib/UltralightCore.dylib"
+            "${CMAKE_SOURCE_DIR}/lib/AppCore.dylib"
+            "${CMAKE_SOURCE_DIR}/lib/Ultralight.dylib"
+            "${CMAKE_SOURCE_DIR}/lib/WebCore.dylib"
     )
 elseif(UNIX)
     target_link_libraries(Uef ${JNI_LIBRARIES}
-            "${CMAKE_SOURCE_DIR}/lib/libUltralightCore.so"
-            "${CMAKE_SOURCE_DIR}/lib/libAppCore.so"
-            "${CMAKE_SOURCE_DIR}/lib/libUltralight.so"
-            "${CMAKE_SOURCE_DIR}/lib/libWebCore.so"
+            "${CMAKE_SOURCE_DIR}/lib/UltralightCore.so"
+            "${CMAKE_SOURCE_DIR}/lib/AppCore.so"
+            "${CMAKE_SOURCE_DIR}/lib/Ultralight.so"
+            "${CMAKE_SOURCE_DIR}/lib/WebCore.so"
     )
 endif()
