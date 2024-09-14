@@ -67,26 +67,26 @@ void Java_net_rk4z_juef_UefPlatform_setConfig(JNIEnv *env, jobject obj, jobject 
     jobject javaEffectQuality = env->GetObjectField(config, effectQualityField);
     EffectQuality effectQuality = ConvertJavaEffectQualityToCpp(env, javaEffectQuality);
 
-    Config config;
-    config.cache_path = cachePath;
-    config.resource_path_prefix = resourcePathPrefix;
-    config.face_winding = faceWinding;
-    config.font_hinting = fontHinting;
-    config.font_gamma = fontGamma;
-    config.user_stylesheet = userStylesheet;
-    config.force_repaint = static_cast<bool>(forceRepaint);
-    config.animation_timer_delay = animationTimerDelay;
-    config.scroll_timer_delay = scrollTimerDelay;
-    config.recycle_delay = recycleDelay;
-    config.memory_cache_size = memoryCacheSize;
-    config.page_cache_size = pageCacheSize;
-    config.override_ram_size = overrideRamSize;
-    config.min_large_heap_size = minLargeHeapSize;
-    config.min_small_heap_size = minSmallHeapSize;
-    config.num_renderer_threads = numRendererThreads;
-    config.max_update_time = maxUpdateTime;
-    config.bitmap_alignment = bitmapAlignment;
-    config.effect_quality = effectQuality;
+    Config UefConfig;
+    UefConfig.cache_path = cachePath;
+    UefConfig.resource_path_prefix = resourcePathPrefix;
+    UefConfig.face_winding = faceWinding;
+    UefConfig.font_hinting = fontHinting;
+    UefConfig.font_gamma = fontGamma;
+    UefConfig.user_stylesheet = userStylesheet;
+    UefConfig.force_repaint = static_cast<bool>(forceRepaint);
+    UefConfig.animation_timer_delay = animationTimerDelay;
+    UefConfig.scroll_timer_delay = scrollTimerDelay;
+    UefConfig.recycle_delay = recycleDelay;
+    UefConfig.memory_cache_size = memoryCacheSize;
+    UefConfig.page_cache_size = pageCacheSize;
+    UefConfig.override_ram_size = overrideRamSize;
+    UefConfig.min_large_heap_size = minLargeHeapSize;
+    UefConfig.min_small_heap_size = minSmallHeapSize;
+    UefConfig.num_renderer_threads = numRendererThreads;
+    UefConfig.max_update_time = maxUpdateTime;
+    UefConfig.bitmap_alignment = bitmapAlignment;
+    UefConfig.effect_quality = effectQuality;
 
-    UefPlatform::setConfig(config);
+    UefPlatform::setConfig(UefConfig);
 }

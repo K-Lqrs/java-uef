@@ -1,4 +1,4 @@
-package net.rk4z.juef;
+package net.rk4z.juef.configuration;
 
 import net.rk4z.juef.util.EffectQuality;
 import net.rk4z.juef.util.FaceWinding;
